@@ -1,23 +1,39 @@
 import * as React from "react";
-import {View, Text} from 'react-native';
-import { SelectList } from "react-native-dropdown-select-list";
+import {View, Text, StyleSheet} from 'react-native';
+import SelectDropdown from 'react-native-select-dropdown';
+import { FontAwesome, SolidIcons } from 'react-native-fontawesome';
 
-
-
-const SortDropDown = () => {
+const SortDropDown = (props) => {
   const [selected, setSelected] = React.useState("");
-  const data = [
-    {key:'1', value:'category'},
-    {key:'2', value:'expiration_date'},
-    {key:'3', value:'quantity'},
-    {key:'4', value:'location'},
-  ];
+  console.log("in sortdropdown: " + selected + " hehe");
+  // console.log("done");
   return (
-    <View>
-      <SelectList data={data} setSelected={setSelected}/>
+    <View >
+      <SelectDropdown 
+        data={props.sort}
+        setSelected={props.setSelected}
+        onSelect={props.setSelected}
+        defaultValue={props.sort[0]}
+        buttonStyle={styles.buttonDropdown}
+        dropdownStyle={styles.dropdown3DropdownStyle}
+      /> 
     </View>
-  )
-  
+  );
 }
+
+const styles = StyleSheet.create({
+  buttonDropdown: {
+    backgroundColor: '#FFF',
+    paddingHorizontal: 0,
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: '#444',
+  },
+  dropdown3DropdownStyle: {
+    backgroundColor: 'white',
+    borderBottomColor: '#444',
+    height: 200,
+  }
+})
 
 export default SortDropDown;
