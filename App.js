@@ -16,8 +16,15 @@ export default function App() {
   return (
     <NavigationContainer style={styles.image}>
       <Tab.Navigator
-        screenOptions={{ tabBarStyle: { backgroundColor: '#D9D9D9' }, tabBarActiveTintColor: '#00CB9A',
-        tabBarInactiveTintColor: 'black', }}
+        screenOptions={{
+          headerShown: false,
+          tabBarStyle: {
+            backgroundColor: '#F8F8F8',
+            borderTopWidth: 2
+          },
+          tabBarActiveTintColor: '#2FC6B7',
+          tabBarInactiveTintColor: 'black', 
+        }}
       >
         <Tab.Screen 
           name="Inventory" 
