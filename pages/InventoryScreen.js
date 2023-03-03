@@ -45,13 +45,18 @@ const InventoryScreen = () => {
   const [selected, setSelected] = React.useState("");
   console.log(setSelected);
   return (
-    <View style={styles.container}>
-      <View style={styles.sort}>
-        <SortDropDown sort={data.sort_by} setSelected={setSelected}/>
+    <View style={styles.page}>
+      <Text style={styles.title}>Your Fridge</Text>
+      <View style={styles.form}>
+        <View style={styles.container}>
+          <View style={styles.sort}>
+            <SortDropDown sort={data.sort_by} setSelected={setSelected}/>
+          </View>
+          <View style={{height: '5%'}}></View>
+          <ItemList sort={selected} data={data}/>
+          <View style={{height: '1%'}}></View>
+        </View>
       </View>
-      <View style={{height: '5%'}}></View>
-      <ItemList sort={selected} data={data}/>
-      <View style={{height: '1%'}}></View>
     </View>
   );
 };
@@ -71,7 +76,28 @@ const styles = StyleSheet.create({
     right: '2%',
     top: '5%',
     zIndex: 100, // brings to front
-  }
+  },
+  page: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    backgroundColor: "#2FC6B7"
+  },
+  title: {
+    color: "#FFFFFF",
+    fontWeight: 'bold',
+    fontSize: 35,
+    paddingBottom: "1%",
+   },
+  form: {
+    width: "100%",
+    height: "87.5%",
+    alignItems: "center",
+    justifyContent: "center",
+    borderTopEndRadius: "35px",
+    borderTopStartRadius: "35px",
+    backgroundColor: "#FFFFFF"
+  },
 });
 
 export default InventoryScreen;
