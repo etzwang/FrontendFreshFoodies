@@ -41,6 +41,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#FFFFFF",
+    borderTopEndRadius: 35,
+    borderTopStartRadius: 35,
   },
 });
 

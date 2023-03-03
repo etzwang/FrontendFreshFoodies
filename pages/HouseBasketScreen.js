@@ -35,6 +35,8 @@ const styles = StyleSheet.create({
     height: "87.5%",
     alignItems: "center",
     justifyContent: "center",
+    borderTopEndRadius: 35,
+    borderTopStartRadius: 35,
     backgroundColor: "#FFFFFF"
   },
 });
