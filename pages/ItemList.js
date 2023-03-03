@@ -4,7 +4,6 @@ import { ScrollView, StyleSheet, View, Text } from "react-native";
 function ItemList(props) {
   // create inventory
   let inventory = {}
-  console.log("items list: " + props.sort);
   let sort = props.sort ? props.sort : "category";
   console.log("sort is: " + sort);
   // let sort = "category";
@@ -19,7 +18,6 @@ function ItemList(props) {
   // add the items into the lists
   for (let i = 0; i < props.data.inventory.length; i++) {
     let item = props.data.inventory[i];
-    // console.log()
     inventory[item[sort]].push(item);
   }
 
@@ -52,11 +50,9 @@ function ItemList(props) {
 const styles = StyleSheet.create({
   container: {
     flex:1
-    // backgroundColor: 'white'
   },
   items_container: {
     padding: '1%',
-    // backgroundColor: 'red',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'normal'
