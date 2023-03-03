@@ -26,7 +26,7 @@ function ItemList(props) {
   for (let i = 0; i < props.data[sort].length; i++) {
     let currSort = props.data[sort][i];
     if (inventory[currSort].length > 0) {
-      inventoryContainer.push(<Text style={{fontSize: '20'}}>{currSort}</Text>);
+      inventoryContainer.push(<Text style={{fontSize: 20}}>{currSort}</Text>);
       var items = [];
       for (let j = 0; j < inventory[currSort].length; j++) {
         items.push(<View style={styles.item}><Text>{inventory[currSort][j].name}</Text></View>);
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     padding: '1%',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'normal'
+    justifyContent: 'center'
   },
   item: {
     margin: '1%',
