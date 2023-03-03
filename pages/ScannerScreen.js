@@ -4,7 +4,7 @@ import Button from "./components/Button.js";
 
 const ScannerScreen = () => {
   return (
-    <View style={styles.container}>
+    <View style={styles.page}>
       <Text style={styles.title}>Upload items</Text>
       <View style={styles.form}>
         <Button onPress={{}} title="Scan Receipt" color="#2FC6B7"/>
@@ -16,7 +16,7 @@ const ScannerScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  page: {
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
