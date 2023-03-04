@@ -5,8 +5,7 @@ import { FontAwesome, SolidIcons } from 'react-native-fontawesome';
 
 const SortDropDown = (props) => {
   const [selected, setSelected] = React.useState("");
-  console.log("in sortdropdown: " + selected + " hehe");
-  // console.log("done");
+
   return (
     <View >
       <SelectDropdown 
@@ -23,15 +22,18 @@ const SortDropDown = (props) => {
 
 const styles = StyleSheet.create({
   buttonDropdown: {
-    backgroundColor: '#FFF',
+    backgroundColor: '#ADEBE7',
     paddingHorizontal: 0,
     borderWidth: 1,
     borderRadius: 8,
+    borderColor: '#ADEBE7'
   },
   dropdown3DropdownStyle: {
-    backgroundColor: 'white',
-    borderBottomColor: '#444',
+    backgroundColor: '#ADEBE7',
+    borderColor: 'white',
     height: 200,
+    borderRadius: 8,
+    borderWidth: 0,
   }
 })
 

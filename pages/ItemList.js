@@ -4,26 +4,65 @@ import { ScrollView, StyleSheet, View, Text } from "react-native";
 function ItemList(props) {
   // create inventory
   let inventory = {}
-  let sort = props.sort ? props.sort : "category";
+  let sortCategoryList = []
+  let sort = props.sort ? props.sort : "category"; // if props sort is undefined - default is category
   console.log("sort is: " + sort);
 
-  console.log(props.data[sort]);
-  // create the lists of each
-  for (let i = 0; i < props.data[sort].length; i++) {
-    let sortName = props.data[sort][i];
-    inventory[sortName] = [];
-  } 
+  if (sort == 'category' || sort == 'location') {
+    // create the lists of each
+    for (let i = 0; i < props.data[sort].length; i++) {
+      let sortName = props.data[sort][i];
+      sortCategoryList.push(sortName)
+      inventory[sortName] = [];
+    } 
+    // add the items into the lists
+    for (let i = 0; i < props.data.inventory.length; i++) {
+      let item = props.data.inventory[i];
+      inventory[item[sort]].push(item);
+    }
+  } else if (sort == 'expiration_date') {
+    sortCategoryList.push("expired", "expiring today", "expiring the next two days", "expiring within two weeks", "expiring later this month", "expiring in month+")
+    let date = new Date();
 
-  // add the items into the lists
-  for (let i = 0; i < props.data.inventory.length; i++) {
-    let item = props.data.inventory[i];
-    inventory[item[sort]].push(item);
+    // create lists of each
+    for (let i = 0; i < sortCategoryList.length; i++) {
+      let sortName = sortCategoryList[i];
+      inventory[sortName] = [];
+    }
+    // add items into the list
+    for (let i = 0; i < props.data.inventory.length; i++) {
+      let item = props.data.inventory[i];
+      let curr = new Date(props.data.inventory[i].expiration_date) // current item's date of expiration
+      let dateDiff = Math.trunc((curr - date) / (1000 * 3600 * 24)); // finding date diff
+
+      // finding the right sort
+      let sortName = ""
+      if (dateDiff < 0) sortName = "expired" 
+      else if (dateDiff == 0) sortName = "expiring today"
+      else if (dateDiff <= 2) sortName = "expiring the next two days"
+      else if (dateDiff <= 14) sortName = "expiring within two weeks"
+      else if (dateDiff <= 30) sortName = "expiring later this month"
+      else sortName = "expiring in month+"
+
+      // pushing it into inventory!
+      inventory[sortName].push(item);
+    }
+  } else if (sort == 'quantity') {
+    let quantitySort = props.data.inventory;
+    quantitySort.sort(function(b, a){return b.quantity-a.quantity;});
+    // console.log(quantitySort)
+    sortCategoryList.push("quantity");
+    inventory["quantity"] = [];
+    for (let i = 0; i < quantitySort.length; i++) {
+      console.log(quantitySort[i])
+      inventory["quantity"].push(quantitySort[i]);
+    }
   }
 
   // now produce it onto the inventory
   var inventoryContainer = [];
-  for (let i = 0; i < props.data[sort].length; i++) {
-    let currSort = props.data[sort][i];
+  for (let i = 0; i < sortCategoryList.length; i++) {
+    let currSort = sortCategoryList[i];
     if (inventory[currSort].length > 0) {
       inventoryContainer.push(<Text style={styles.category_title}>{currSort}</Text>);
       var items = [];
@@ -63,6 +102,8 @@ function ItemList(props) {
 const styles = StyleSheet.create({
   container: {
     flex:1,
+    paddingTop: '10%',
+    marginTop: '2%'
   },
   items_container: {
     paddingTop: '1%',
@@ -122,3 +163,9 @@ const styles = StyleSheet.create({
 });
 
 export default ItemList;
+
+
+let json = [{"category": "produce", "expiration_date": "2023-03-10", "location": "counter", "name": "banana", "quantity": 1},
+{"category": "meat", "expiration_date": "2023-02-25", "location": "freezer", "name": "steak", "quantity": 2},
+{"category": "produce", "expiration_date": "2023-03-07", "location": "fridge", "name": "apple", "quantity": 3},
+{"category": "dairy", "expiration_date": "2023-03-28", "location": "fridge", "name": "egg", "quantity": 6}]

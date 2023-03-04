@@ -75,7 +75,11 @@ export default function App() {
           component={Home}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="Manual" component={Manual} />
+        <Stack.Screen 
+          name="Manual"
+          component={Manual} 
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="TakeReceiptPhotoScreen"
           component={TakeReceiptPhotoScreen}

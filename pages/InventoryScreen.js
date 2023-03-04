@@ -11,7 +11,7 @@ const InventoryScreen = () => {
         name: "banana",
         category: "produce",
         quantity: 1,
-        expiration_date: "2023-02-21",
+        expiration_date: "2023-03-10",
         location: "counter"
       },
       {
@@ -25,21 +25,23 @@ const InventoryScreen = () => {
         name: "egg",
         category: "dairy",
         quantity: 6,
-        expiration_date: "2023-02-30",
+        expiration_date: "2023-03-28",
         location: "fridge"
       },
       {
         name: "apple",
         category: "produce",
         quantity: 3,
-        expiration_date: "2023-02-22",
+        expiration_date: "2023-03-07",
         location: "fridge"
       },
   
     ],
-    category: ["produce", "meat", "dairy"],
     sort_by: ["category", "expiration_date", "quantity", "location"],
-    location: ["fridge", "freezer", "counter", "pantry"]
+    location: ["fridge", "freezer", "counter", "pantry"],
+    category: ["produce", "meat", "dairy"],
+    expiration_date: ["0", "2", "14", "30"],
+    quantity: [1, 2, 3, 4, 5]
   };
   
   const [selected, setSelected] = React.useState("");
@@ -52,9 +54,9 @@ const InventoryScreen = () => {
           <View style={styles.sort}>
             <SortDropDown sort={data.sort_by} setSelected={setSelected}/>
           </View>
-          <View style={{height: '10%'}}></View>
+          {/* <View style={{height: '10%'}}></View> */}
           <ItemList sort={selected} data={data}/>
-          <View style={{height: '1%'}}></View>
+          {/* <View style={{height: '1%'}}></View> */}
         </View>
       </View>
     </View>
@@ -69,6 +71,7 @@ const styles = StyleSheet.create({
     width: '95%'
   },
   sort: {
+    position: 'sticky',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-end',

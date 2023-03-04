@@ -8,11 +8,21 @@ const ScanReceipt = () => {
 
   return (
     <View style={styles.page}>
-      <Text style={styles.title}>Upload items</Text>
-      <View style={styles.form}>
-        <Button onPress={{}} title="Scan" color="#2FC6B7" />
-      </View>
+    <Text style={styles.title}>Upload items</Text>
+    <View style={styles.form}>
+      <Button 
+        onPress={() => navigation.push("ScanReceipt")}
+        title="Scan Receipt"
+        color="#2FC6B7"
+      />
+      <Text style={{ padding: "10%" }}>or</Text>
+      <Button
+        onPress={() => navigation.navigate("Manual")}
+        title="Manually Enter"
+        color="#ADEBE7"
+      />
     </View>
+  </View>
   );
 };
 
