@@ -6,7 +6,6 @@ function ItemList(props) {
   let inventory = {}
   let sort = props.sort ? props.sort : "category";
   console.log("sort is: " + sort);
-  // let sort = "category";
 
   console.log(props.data[sort]);
   // create the lists of each
@@ -26,10 +25,24 @@ function ItemList(props) {
   for (let i = 0; i < props.data[sort].length; i++) {
     let currSort = props.data[sort][i];
     if (inventory[currSort].length > 0) {
-      inventoryContainer.push(<Text style={{fontSize: 20}}>{currSort}</Text>);
+      inventoryContainer.push(<Text style={styles.category_title}>{currSort}</Text>);
       var items = [];
       for (let j = 0; j < inventory[currSort].length; j++) {
-        items.push(<View style={styles.item}><Text>{inventory[currSort][j].name}</Text></View>);
+        items.push(
+          <View style={styles.item}>
+            <Text style={{fontSize:'20'}}>{inventory[currSort][j].name}</Text>
+            <View style={styles.item_info}>
+              <View style={styles.info_container}>
+                <Text style={styles.item_info_detail}>{inventory[currSort][j].quantity}</Text>
+                <Text style={styles.item_info_title}>quantity</Text>
+              </View>
+              <View style={styles.info_container}>
+                <Text style={styles.item_info_detail}>{inventory[currSort][j].expiration_date}</Text>
+                <Text style={styles.item_info_title}>expiration date</Text>
+              </View>
+            </View>
+          </View>
+        );
       }
       inventoryContainer.push(<View style={styles.items_container}>{items}</View>);
     }
@@ -49,21 +62,54 @@ function ItemList(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1
+    flex:1,
   },
   items_container: {
-    padding: '1%',
+    paddingTop: '1%',
+    paddingBottom: '3%',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'center'
+    justifyContent: 'normal',
   },
   item: {
     margin: '1%',
     backgroundColor:'white',
-    width: 100,
+    width: '48%',
     height: 100,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: '1',
+    borderRadius: '10',
+    borderColor: 'grey',
+    shadowColor: "grey",
+    shadowOpacity: 0.8,
+    shadowRadius: 4,
+    shadowOffset: {
+      height: 1,
+      width: 1
+    }
+  },
+  category_title: {
+    fontSize: 25,
+    paddingTop: '2%'
+  },
+  item_info: {
+    flexDirection: 'row'
+  },
+  info_container: {
+    alignItems: 'center',
+    padding: '5% 5% 0% 5%'
+  },
+  item_info_detail: {
+    backgroundColor: '#ECECEC',
+    padding: 3,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ECECEC',
+    overflow: 'hidden'
+  },
+  item_info_title: {
+    fontSize: 10
   },
   empty: {
     paddingTop: '5%',

@@ -7,7 +7,6 @@ const Manual = () => {
   return (
     <View>
       <Text>Hello! This is the Manual Screen</Text>
-      <Form />
     </View>
   );
 }
