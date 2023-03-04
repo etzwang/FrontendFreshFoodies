@@ -46,13 +46,13 @@ const InventoryScreen = () => {
   console.log(setSelected);
   return (
     <View style={styles.page}>
-      <Text style={styles.title}>Your Fridge</Text>
+      <Text style={styles.title}>My Fridge</Text>
       <View style={styles.form}>
         <View style={styles.container}>
           <View style={styles.sort}>
             <SortDropDown sort={data.sort_by} setSelected={setSelected}/>
           </View>
-          <View style={{height: '5%'}}></View>
+          <View style={{height: '10%'}}></View>
           <ItemList sort={selected} data={data}/>
           <View style={{height: '1%'}}></View>
         </View>
@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     flex: 1,
-    padding:'5%'
+    padding:'1%',
+    width: '95%'
   },
   sort: {
     flex: 1,
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderTopEndRadius: "35px",
     borderTopStartRadius: "35px",
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "#FFFFFF",
   },
 });
 

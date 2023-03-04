@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
     borderWidth: 1,
     borderRadius: 8,
-    borderColor: '#444',
   },
   dropdown3DropdownStyle: {
     backgroundColor: 'white',
