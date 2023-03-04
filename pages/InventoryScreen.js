@@ -45,7 +45,6 @@ const InventoryScreen = () => {
   };
   
   const [selected, setSelected] = React.useState("");
-  console.log(setSelected);
   return (
     <View style={styles.page}>
       <Text style={styles.title}>My Fridge</Text>

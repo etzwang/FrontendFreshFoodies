@@ -50,11 +50,9 @@ function ItemList(props) {
   } else if (sort == 'quantity') {
     let quantitySort = props.data.inventory;
     quantitySort.sort(function(b, a){return b.quantity-a.quantity;});
-    // console.log(quantitySort)
     sortCategoryList.push("quantity");
     inventory["quantity"] = [];
     for (let i = 0; i < quantitySort.length; i++) {
-      console.log(quantitySort[i])
       inventory["quantity"].push(quantitySort[i]);
     }
   }
@@ -64,32 +62,33 @@ function ItemList(props) {
   for (let i = 0; i < sortCategoryList.length; i++) {
     let currSort = sortCategoryList[i];
     if (inventory[currSort].length > 0) {
-      inventoryContainer.push(<Text style={styles.category_title}>{currSort}</Text>);
+      inventoryContainer.push(<Text style={styles.category_title} key={"sort_" + currSort} >{currSort}</Text>);
       var items = [];
       for (let j = 0; j < inventory[currSort].length; j++) {
+        let currItem = inventory[currSort][j].name;
         items.push(
-          <View style={styles.item}>
-            <Text style={{fontSize: 20}}>{inventory[currSort][j].name}</Text>
-            <View style={styles.item_info}>
-              <View style={styles.info_container}>
-                <Text style={styles.item_info_detail}>{inventory[currSort][j].quantity}</Text>
-                <Text style={styles.item_info_title}>quantity</Text>
+          <View style={styles.item} key={currItem + "_item"}>
+            <Text style={{fontSize: 20}} key={currItem + "_item_text"}>{currItem}</Text>
+            <View style={styles.item_info} key={currItem + "_item_info"}>
+              <View style={styles.info_container} key={currItem + "_ctnr_quantity"}>
+                <Text style={styles.item_info_detail} key={currItem + "_ctnr_quantity_count"} >{inventory[currSort][j].quantity}</Text>
+                <Text style={styles.item_info_title} key={currItem + "_ctnr_quantity_text"} >quantity</Text>
               </View>
-              <View style={styles.info_container}>
-                <Text style={styles.item_info_detail}>{inventory[currSort][j].expiration_date}</Text>
-                <Text style={styles.item_info_title}>expiration date</Text>
+              <View style={styles.info_container} key={currItem + "_ctnr_exp_date"}>
+                <Text style={styles.item_info_detail} key={currItem + "_ctnr_exp_date_date"} >{inventory[currSort][j].expiration_date}</Text>
+                <Text style={styles.item_info_title} key={currItem + "_ctnr_exp_date_text"} >expiration date</Text>
               </View>
             </View>
           </View>
         );
       }
-      inventoryContainer.push(<View style={styles.items_container}>{items}</View>);
+      inventoryContainer.push(<View style={styles.items_container} key={"items_container_" + currSort}>{items}</View>);
     }
   }
 
   if (inventoryContainer.length == 0) {
-    inventoryContainer.push(<Text style={styles.empty}>It looks like your inventory is empty.</Text>)
-    inventoryContainer.push(<Text style={styles.empty}>Scan a receipt to upload your items</Text>)    
+    inventoryContainer.push(<Text style={styles.empty} key={0}>It looks like your inventory is empty.</Text>)
+    inventoryContainer.push(<Text style={styles.empty} key={1}>Scan a receipt to upload your items</Text>)    
   }
 
   return (
