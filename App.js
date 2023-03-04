@@ -6,6 +6,7 @@ import InventoryScreen from './pages/InventoryScreen.js';
 import HouseBasketScreen from './pages/HouseBasketScreen';
 import ScannerScreen from "./pages/ScannerScreen.js";
 import Manual from "./pages/Manual.js";
+import ScanReceipt from "./pages/ScanReceipt";
 import { AntDesign, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -74,6 +75,11 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Manual" component={Manual} />
+        <Stack.Screen
+          name="ScanReceipt"
+          component={ScanReceipt}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -3,33 +3,17 @@ import { View, Text, StyleSheet } from "react-native";
 import Button from "./components/Button.js";
 import { useNavigation } from "@react-navigation/native";
 
-const ScannerScreen = () => {
+const ScanReceipt = () => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.page}>
       <Text style={styles.title}>Upload items</Text>
       <View style={styles.form}>
-        <Button 
-          onPress={() => navigation.push("ScanReceipt")}
-          title="Scan Receipt"
-          color="#2FC6B7"
-        />
-        <Text style={{ padding: "10%" }}>or</Text>
-        <Button
-          onPress={() => navigation.navigate("Manual")}
-          title="Manually Enter"
-          color="#ADEBE7"
-        />
+        <Button onPress={{}} title="Scan" color="#2FC6B7" />
       </View>
     </View>
   );
-};
-
-ScannerScreen.navigationOptions = {
-  headerLeft: () => {
-    return null;
-  },
 };
 
 const styles = StyleSheet.create({
@@ -51,9 +35,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#FFFFFF",
-    borderTopEndRadius: 35,
-    borderTopStartRadius: 35,
   },
 });
 
-export default ScannerScreen;
+export default ScanReceipt;

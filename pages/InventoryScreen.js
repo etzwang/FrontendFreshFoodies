@@ -95,9 +95,9 @@ const styles = StyleSheet.create({
     height: "87.5%",
     alignItems: "center",
     justifyContent: "center",
-    borderTopEndRadius: "35px",
-    borderTopStartRadius: "35px",
     backgroundColor: "#FFFFFF",
+    borderTopEndRadius: 35,
+    borderTopStartRadius: 35,
   },
 });
 
