@@ -30,7 +30,7 @@ function ItemList(props) {
       for (let j = 0; j < inventory[currSort].length; j++) {
         items.push(
           <View style={styles.item}>
-            <Text style={{fontSize:'20'}}>{inventory[currSort][j].name}</Text>
+            <Text style={{fontSize: 20}}>{inventory[currSort][j].name}</Text>
             <View style={styles.item_info}>
               <View style={styles.info_container}>
                 <Text style={styles.item_info_detail}>{inventory[currSort][j].quantity}</Text>
@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
     paddingBottom: '3%',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'normal',
   },
   item: {
     margin: '1%',
@@ -78,8 +77,8 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: '1',
-    borderRadius: '10',
+    borderWidth: 1,
+    borderRadius: 10,
     borderColor: 'grey',
     shadowColor: "grey",
     shadowOpacity: 0.8,
@@ -98,7 +97,9 @@ const styles = StyleSheet.create({
   },
   info_container: {
     alignItems: 'center',
-    padding: '5% 5% 0% 5%'
+    paddingTop: '5%',
+    paddingRight: '5%',
+    paddingLeft: '5%'
   },
   item_info_detail: {
     backgroundColor: '#ECECEC',

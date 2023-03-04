@@ -2,11 +2,12 @@ import * as React from "react";
 import { StyleSheet} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import InventoryScreen from './pages/InventoryScreen.js';
+import InventoryScreen from './pages/InventoryScreen';
 import HouseBasketScreen from './pages/HouseBasketScreen';
-import ScannerScreen from "./pages/ScannerScreen.js";
+import ScanReceiptScreen from "./pages/ScanReceiptScreen";
 import Manual from "./pages/Manual.js";
-import ScanReceipt from "./pages/ScanReceipt";
+import TakeReceiptPhotoScreen from "./pages/receipt/TakeReceiptPhotoScreen";
+import EditReceiptPhotoScreen from "./pages/receipt/EditReceiptPhotoScreen";
 import { AntDesign, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -41,7 +42,7 @@ function Home() {
       />
       <Tab.Screen
         name="Scanner"
-        component={ScannerScreen}
+        component={ScanReceiptScreen}
         options={{
           tabBarLabel: '',
           tabBarShowLabel: false,
@@ -76,8 +77,13 @@ export default function App() {
         />
         <Stack.Screen name="Manual" component={Manual} />
         <Stack.Screen
-          name="ScanReceipt"
-          component={ScanReceipt}
+          name="TakeReceiptPhotoScreen"
+          component={TakeReceiptPhotoScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="EditReceiptPhotoScreen"
+          component={EditReceiptPhotoScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
