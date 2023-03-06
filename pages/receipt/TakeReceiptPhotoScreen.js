@@ -7,6 +7,7 @@ import { useNavigation, useIsFocused, useFocusEffect, useCallback } from "@react
 const TakeReceiptPhotoScreen = () => {
   const [camera, setCamera] = useState(null);
   const [isCameraReady, setIsCameraReady] = useState(false);
+  const [takePhotoTitle, setTakePhotoTitle] = useState("Take Photo");
   const [imageb64, setImageb64] = useState(null);
 
   const isFocused = useIsFocused();
@@ -37,6 +38,8 @@ const TakeReceiptPhotoScreen = () => {
       return;
     }
 
+    setTakePhotoTitle("Loading...");
+
     try {
       if (camera !== null) {
         const result = await camera.takePictureAsync(
@@ -54,6 +57,8 @@ const TakeReceiptPhotoScreen = () => {
     } catch (error) {
       console.log(error);
     }
+
+    setTakePhotoTitle("Take Photo");
   }
 
   return (
@@ -70,7 +75,7 @@ const TakeReceiptPhotoScreen = () => {
             onCameraReady={() => setIsCameraReady(true)}
           />
         }
-        <Button onPress={takePhoto} title="Take Photo" color="#2FC6B7" />
+        <Button onPress={takePhoto} title={takePhotoTitle} color="#2FC6B7" />
       </View>
     </View>
   );
