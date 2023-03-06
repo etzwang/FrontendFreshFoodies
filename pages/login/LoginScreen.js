@@ -1,17 +1,34 @@
-import * as React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState } from 'react';  
+import { View, Text, StyleSheet, TextInput } from "react-native";
 import Button from "../components/Button.js";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = () => {
+  const [userEmail, setUserEmail] = useState(null)
   const navigation = useNavigation();
+
+  const login = () => {
+    if (userEmail == null) {
+      alert("Please enter an email.")
+      return;
+    }
+    AsyncStorage.setItem('user_email', userEmail);
+    navigation.navigate("Home")
+  }
 
   return (
     <View style={styles.page}>
     <Text style={styles.title}>BEEP</Text>
     <View style={styles.form}>
-      <Button 
-        onPress={() => navigation.push("LoginScreen")}
+      <TextInput
+        value={userEmail}
+        onChangeText={(userEmail) => setUserEmail(userEmail)}
+        placeholder={'Your Email'}
+        style={styles.input}
+      />
+      <Button
+        onPress={login}
         title="Login"
         color="#2FC6B7"
       />
@@ -45,6 +62,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#FFFFFF",
+  },
+  input: {
+    width: 250,
+    height: 44,
+    padding: 10,
+    marginTop: 20,
+    marginBottom: 10,
+    backgroundColor: '#e8e8e8'
   },
 });
 
