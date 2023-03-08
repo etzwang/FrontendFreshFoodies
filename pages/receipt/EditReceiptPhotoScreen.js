@@ -5,13 +5,13 @@ import { Camera, CameraType } from 'expo-camera';
 
 const EditReceiptPhotoScreen = ({ route }) => {
   const makeRequest = async () => {
-    console.log("making request");
+    console.log("making receipt request");
 
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "image/jpeg");
     var requestOptions = {
       method: 'POST',
-      headers: myHeaders,
+      headers: {
+        "Content-Type": "image/jpeg"
+      },
       body: this.props.route.params.b64,
       redirect: 'follow'
     };

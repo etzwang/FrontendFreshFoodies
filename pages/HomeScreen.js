@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import InventoryScreen from './InventoryScreen';
 import HouseBasketScreen from './HouseBasketScreen';
 import ScanReceiptScreen from "./ScanReceiptScreen";
+import LogoutScreen from "./LogoutScreen";
 import { AntDesign, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 
 
@@ -50,6 +51,17 @@ const HomeScreen = () => {
           tabBarShowLabel: false,
           tabBarIcon: ({ color }) => (
             <FontAwesome5 name="shopping-basket" color={color} size={30} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Logout"
+        component={LogoutScreen}
+        options={{
+          tabBarLabel: '',
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color }) => (
+            <FontAwesome5 name="user" color={color} size={30} />
           ),
         }}
       />
