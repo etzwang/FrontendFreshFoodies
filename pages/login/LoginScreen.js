@@ -34,7 +34,8 @@ const LoginScreen = () => {
     console.log("making login request");
 
     var body = {
-      email: userEmail
+      email: userEmail,
+      password: userPassword,
     }
     var requestOptions = {
       method: 'POST',
@@ -49,13 +50,14 @@ const LoginScreen = () => {
     var response;
     try {
       response = await fetch("https://looking-glass-api.herokuapp.com/api/login", requestOptions)
-      console.log("response: " + JSON.stringify(response))
     } catch (e) {
       console.log('error', error.message)
     }
 
     if (response.status != 200) {
-      console.log("login failed")
+      console.log("login failed, response: " + JSON.stringify(response));
+    } else {
+      console.log("login succeeded, response: " + JSON.stringify(response))
     }
   }
 
@@ -87,7 +89,9 @@ const LoginScreen = () => {
     }
 
     if (response.status != 200) {
-      console.log("login failed")
+      console.log("signup failed, response: " + JSON.stringify(response));
+    } else {
+      console.log("signup succeeded, response: " + JSON.stringify(response))
     }
   }
 

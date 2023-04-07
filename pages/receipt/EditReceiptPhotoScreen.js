@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image } from "react-native";
 import Button from "../components/Button.js";
-import { Camera, CameraType } from 'expo-camera';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 const EditReceiptPhotoScreen = ({ route }) => {
+  const [isLoading, setIsLoading] = useState(false)
   const makeRequest = async () => {
+    setIsLoading(true);
     console.log("making receipt request");
 
     var requestOptions = {
@@ -12,19 +14,28 @@ const EditReceiptPhotoScreen = ({ route }) => {
       headers: {
         "Content-Type": "image/jpeg"
       },
-      body: this.props.route.params.b64,
+      body: route.params.b64,
       redirect: 'follow'
     };
-
+  
     fetch("https://looking-glass-api.herokuapp.com/api/receipt", requestOptions)
       .then(response => response.text())
-      .then(result => console.log(result))
+      .then(result => {
+        console.log(result);
+        alert(result);
+      })
       .catch(error => console.log('error', error.message));
+    setIsLoading(false);
   }
 
   return (
     <View style={styles.page}>
       <Text style={styles.title}>Upload items</Text>
+      {isLoading && // DOESNT WORK
+        <View style={styles.loading}>
+          <FontAwesome5 name="spinner" color="black" size={30} />
+        </View>
+      }
       <View style={styles.form}>
         <Image
           style={styles.picture}
@@ -61,6 +72,10 @@ const styles = StyleSheet.create({
     width: "90%",
     height: "80%",
     marginBottom: 10
+  },
+  loading: {
+    position: "absolute",
+    zIndex: 100
   }
 });
 
