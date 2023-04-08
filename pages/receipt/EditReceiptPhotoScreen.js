@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image } from "react-native";
 import Button from "../components/Button.js";
-import { FontAwesome5 } from '@expo/vector-icons';
 
 const EditReceiptPhotoScreen = ({ route }) => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [makeRequestTitle, setMakeRequestTitle] = useState("Confirm");
+  const [isLoading, setIsLoading] = useState(false);
   const makeRequest = async () => {
+
+    setMakeRequestTitle("Loading...");
     setIsLoading(true);
-    console.log("making receipt request");
 
     var requestOptions = {
       method: 'POST',
@@ -18,31 +19,30 @@ const EditReceiptPhotoScreen = ({ route }) => {
       redirect: 'follow'
     };
   
-    fetch("https://looking-glass-api.herokuapp.com/api/receipt", requestOptions)
+    await fetch("https://looking-glass-api.herokuapp.com/api/receipt", requestOptions)
       .then(response => response.text())
       .then(result => {
         console.log(result);
         alert(result);
       })
-      .catch(error => console.log('error', error.message));
+      .catch(error => {
+        console.log('error', error)
+        alert(error)
+      });
+    setMakeRequestTitle("Confirm");
     setIsLoading(false);
   }
 
   return (
     <View style={styles.page}>
       <Text style={styles.title}>Upload items</Text>
-      {isLoading && // DOESNT WORK
-        <View style={styles.loading}>
-          <FontAwesome5 name="spinner" color="black" size={30} />
-        </View>
-      }
       <View style={styles.form}>
         <Image
           style={styles.picture}
           key={route.params.b64}
           source={{ uri: `data:image/png;base64,${route.params.b64}` }}
         />
-        <Button onPress={makeRequest} title="Confirm" color="#2FC6B7" />
+        <Button onPress={isLoading ? null : makeRequest} title={makeRequestTitle} color="#2FC6B7" />
       </View>
     </View>
   );

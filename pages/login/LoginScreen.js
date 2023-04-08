@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TextInput } from "react-native";
 import Button from "../components/Button.js";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { makeHTTPRequest } from '../utils/HttpUtils.js';
 
 const LoginScreen = () => {
   const [userName, setUserName] = useState(null)
@@ -10,7 +11,45 @@ const LoginScreen = () => {
   const [userPassword, setUserPassword] = useState(null)
   const navigation = useNavigation();
 
-  const verifyFields = async () => {
+  const sendLoginRequest = async (email, password) => {
+    if (userEmail == null) {
+      alert("Please enter an email.")
+      return;
+    }
+    if (userPassword == null) {
+      alert("Please enter a password.")
+      return
+    }
+
+    // try to login with the given email + password
+    console.log("making login request");
+
+    var body = {
+      email: userEmail.toLowerCase(),
+      password: userPassword.toLowerCase(),
+    }
+    var requestOptions = {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    };
+
+    var response = await makeHTTPRequest(requestOptions, "https://looking-glass-api.herokuapp.com/api/login");
+
+    if (response === null) {
+      alert("login failed");
+      return;
+    }
+
+    if (response.email) {
+      AsyncStorage.setItem('user_email', response.email);
+    }
+    navigation.navigate("Home")
+  }
+
+  const sendSignupRequest = async () => {
     if (userName == null) {
       alert("Please enter a name.")
       return;
@@ -23,52 +62,42 @@ const LoginScreen = () => {
       alert("Please enter a password.")
       return
     }
-    // AsyncStorage.setItem('user_email', userEmail);
-    // AsyncStorage.setItem('user_email', userPassword);
-    // navigation.navigate("Home")
-  }
 
-  const sendLoginRequest = async () => {
-    await verifyFields();
-    // try to login with the given email + password
-    console.log("making login request");
-
-    var body = {
-      email: userEmail,
-      password: userPassword,
-    }
-    var requestOptions = {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(body)
-    };
-
-    console.log("request: " + JSON.stringify(requestOptions))
-
-    var response;
-    try {
-      response = await fetch("https://looking-glass-api.herokuapp.com/api/login", requestOptions)
-    } catch (e) {
-      console.log('error', error.message)
-    }
-
-    if (response.status != 200) {
-      console.log("login failed, response: " + JSON.stringify(response));
-    } else {
-      console.log("login succeeded, response: " + JSON.stringify(response))
-    }
-  }
-
-  const sendSignupRequest = async () => {
-    await verifyFields();
     console.log("making signup request");
 
     var body = {
-      name: userName,
-      email: userEmail,
-      password: userPassword
+      name: userName.toLowerCase(),
+      email: userEmail.toLowerCase(),
+      password: userPassword.toLowerCase()
+    }
+    var requestOptions = {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    };
+    
+    var response = makeHTTPRequest(requestOptions, "https://looking-glass-api.herokuapp.com/api/signup");
+
+    if (response === null) {
+      alert("signup failed");
+      return;
+    }
+    if (response.email && response._id) {
+      AsyncStorage.setItem('user_email', response.email);
+      AsyncStorage.setItem('user_id', response._id);
+
+      createPersonalFridge(response.email, response.name + "_personal_fridge");
+    }
+    navigation.navigate("Home")
+  }
+
+  const createPersonalFridge = async (email, slug) => {
+    console.log("creating personal fridge", email, slug)
+    var body = {
+      email,
+      slug
     }
     var requestOptions = {
       method: 'POST',
@@ -78,26 +107,41 @@ const LoginScreen = () => {
       body: JSON.stringify(body)
     };
 
-    console.log("request: " + JSON.stringify(requestOptions))
+    var response = makeHTTPRequest(requestOptions, "https://looking-glass-api.herokuapp.com/api/fridge");
 
-    var response;
-    try {
-      response = await fetch("https://looking-glass-api.herokuapp.com/api/signup", requestOptions)
-      console.log("response: " + JSON.stringify(response))
-    } catch (e) {
-      console.log('error', error.message)
+    if (!response) {
+      alert("personal fridge creation failed")
+      return;
     }
 
-    if (response.status != 200) {
-      console.log("signup failed, response: " + JSON.stringify(response));
-    } else {
-      console.log("signup succeeded, response: " + JSON.stringify(response))
-    }
+    console.log("personal fridge creation succeeded, response: " + JSON.stringify(response))
+  }
+
+  const loginDemoAccount = async () => {
+    // var body = {
+    //   email: "demo@freshfoodies.com",
+    //   password: 123,
+    // }
+    // var requestOptions = {
+    //   method: 'POST',
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify(body)
+    // };
+
+    // var response = await makeHTTPRequest(requestOptions, "https://looking-glass-api.herokuapp.com/api/login");
+
+    // if (response && response.email) {
+    //   AsyncStorage.setItem('user_email', response.email);
+    //   navigation.navigate("Home")
+    // }
+    navigation.navigate("Home")
   }
 
   return (
     <View style={styles.page}>
-    <Text style={styles.title}>BEEP</Text>
+    <Text style={styles.title}>Login or Signup</Text>
     <View style={styles.form}>
       <TextInput
         value={userName}
@@ -117,20 +161,24 @@ const LoginScreen = () => {
         placeholder={'Your Password'}
         style={styles.input}
       />
-      <Button
-        onPress={sendLoginRequest}
-        title="Login"
-        color="#2FC6B7"
-      />
-      <Text style={{ padding: "10%" }}>or</Text>
-      <Button
-        onPress={sendSignupRequest}
-        title="Signup"
-        color="#2FC6B7"
-      />
+      <View style={styles.buttonFlex}>
+        <Button
+          onPress={sendLoginRequest}
+          title="Login"
+          color="#2FC6B7"
+          width={150}
+        />
+        <View style={{ width: 20 }} />
+        <Button
+          onPress={sendSignupRequest}
+          title="Signup"
+          color="#2FC6B7"
+          width={150}
+        />
+      </View>
       <Text style={{ padding: "10%" }}>PLEASE DO NOT USE A PASSWORD YOU CARE ABOUT, USE ONLY FOR TESTING</Text>
       <Button
-        onPress={() => navigation.navigate("Home")}
+        onPress={loginDemoAccount}
         title="Demo"
         color="#2FC6B7"
       />
@@ -167,6 +215,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     backgroundColor: '#e8e8e8'
   },
+  buttonFlex: {
+    flexDirection:"row",
+    justifyContent: "center",
+    marginTop: 10
+  }
 });
 
 export default LoginScreen;

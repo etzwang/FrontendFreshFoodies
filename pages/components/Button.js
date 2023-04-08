@@ -3,12 +3,15 @@ import { StyleSheet, TouchableOpacity, Text } from "react-native";
 
 TouchableOpacity.defaultProps = { activeOpacity: 0.8 };
 
-const App = ({ onPress, title, color }) => {
+const App = ({ onPress, title, color, width }) => {
+  if (!width) {
+    width = 271
+  }
   return (
     <TouchableOpacity onPress={onPress} style={{
         backgroundColor: color,
         borderRadius: 20,
-        width: 271,
+        width,
         height: 75,
         justifyContent: "center",
         // paddingVertical: 18,

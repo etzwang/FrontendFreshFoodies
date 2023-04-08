@@ -8,7 +8,6 @@ const TakeReceiptPhotoScreen = () => {
   const [camera, setCamera] = useState(null);
   const [isCameraReady, setIsCameraReady] = useState(false);
   const [takePhotoTitle, setTakePhotoTitle] = useState("Take Photo");
-  const [imageb64, setImageb64] = useState(null);
 
   const isFocused = useIsFocused();
 
@@ -49,13 +48,11 @@ const TakeReceiptPhotoScreen = () => {
           }
         );
         const b64 = result.base64;
-        setImageb64(b64);
-        console.log(result.base64)
-
         navigation.push("EditReceiptPhotoScreen", { b64 })
       }
     } catch (error) {
       console.log(error);
+      alert(error)
     }
 
     setTakePhotoTitle("Take Photo");

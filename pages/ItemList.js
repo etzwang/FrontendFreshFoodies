@@ -1,7 +1,25 @@
 import React, { Component } from "react";
 import { ScrollView, StyleSheet, View, Text } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { makeHTTPRequest } from './utils/HttpUtils.js';
+
+async function getUserItems() {
+  var requestOptions = {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  var response = await makeHTTPRequest(requestOptions, "https://looking-glass-api.herokuapp.com/api/me");
+  if (response === null) {
+    alert("failed to get your personal fridge items.")
+  }
+  console.log(response);
+}
 
 function ItemList(props) {
+  getUserItems()
   // create inventory
   let inventory = {}
   let sortCategoryList = []
