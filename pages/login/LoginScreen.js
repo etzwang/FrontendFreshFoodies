@@ -8,7 +8,6 @@ import { makeHTTPRequest } from '../utils/HttpUtils.js';
 const LoginScreen = () => {
   const [userName, setUserName] = useState(null)
   const [userEmail, setUserEmail] = useState(null)
-  const [userPassword, setUserPassword] = useState(null)
   const navigation = useNavigation();
 
   const sendLoginRequest = async (email, password) => {
@@ -16,17 +15,12 @@ const LoginScreen = () => {
       alert("Please enter an email.")
       return;
     }
-    if (userPassword == null) {
-      alert("Please enter a password.")
-      return
-    }
 
     // try to login with the given email + password
     console.log("making login request");
 
     var body = {
-      email: userEmail.toLowerCase(),
-      password: userPassword.toLowerCase(),
+      email: userEmail.toLowerCase()
     }
     var requestOptions = {
       method: 'POST',
@@ -45,8 +39,8 @@ const LoginScreen = () => {
 
     if (response.email) {
       AsyncStorage.setItem('user_email', response.email);
+      navigation.navigate("Home")
     }
-    navigation.navigate("Home")
   }
 
   const sendSignupRequest = async () => {
@@ -58,17 +52,12 @@ const LoginScreen = () => {
       alert("Please enter an email.")
       return;
     }
-    if (userPassword == null) {
-      alert("Please enter a password.")
-      return
-    }
 
     console.log("making signup request");
 
     var body = {
       name: userName.toLowerCase(),
-      email: userEmail.toLowerCase(),
-      password: userPassword.toLowerCase()
+      email: userEmail.toLowerCase()
     }
     var requestOptions = {
       method: 'POST',
@@ -118,25 +107,23 @@ const LoginScreen = () => {
   }
 
   const loginDemoAccount = async () => {
-    // var body = {
-    //   email: "demo@freshfoodies.com",
-    //   password: 123,
-    // }
-    // var requestOptions = {
-    //   method: 'POST',
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify(body)
-    // };
+    var body = {
+      email: "demo@freshfoodies.com"
+    }
+    var requestOptions = {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    };
 
-    // var response = await makeHTTPRequest(requestOptions, "https://looking-glass-api.herokuapp.com/api/login");
+    var response = await makeHTTPRequest(requestOptions, "https://looking-glass-api.herokuapp.com/api/login");
 
-    // if (response && response.email) {
-    //   AsyncStorage.setItem('user_email', response.email);
-    //   navigation.navigate("Home")
-    // }
-    navigation.navigate("Home")
+    if (response && response.email) {
+      AsyncStorage.setItem('user_email', response.email);
+      navigation.navigate("Home")
+    }
   }
 
   return (
@@ -155,12 +142,6 @@ const LoginScreen = () => {
         placeholder={'Your Email'}
         style={styles.input}
       />
-      <TextInput
-        value={userPassword}
-        onChangeText={(userPassword) => setUserPassword(userPassword)}
-        placeholder={'Your Password'}
-        style={styles.input}
-      />
       <View style={styles.buttonFlex}>
         <Button
           onPress={sendLoginRequest}
@@ -177,11 +158,21 @@ const LoginScreen = () => {
         />
       </View>
       <Text style={{ padding: "10%" }}>PLEASE DO NOT USE A PASSWORD YOU CARE ABOUT, USE ONLY FOR TESTING</Text>
-      <Button
-        onPress={loginDemoAccount}
-        title="Demo"
-        color="#2FC6B7"
-      />
+      <View style={styles.buttonFlex}>
+        <Button
+          onPress={loginDemoAccount}
+          title="Demo"
+          color="#2FC6B7"
+          width={150}
+        />
+        <View style={{ width: 20 }} />
+        <Button
+          onPress={() => { navigation.navigate("Home") } }
+          title="Bypass"
+          color="#2FC6B7"
+          width={150}
+        />
+      </View>
     </View>
   </View>
   );
