@@ -1,25 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image } from "react-native";
 import Button from "../components/Button.js";
-import { Camera, CameraType } from 'expo-camera';
 
 const EditReceiptPhotoScreen = ({ route }) => {
+  const [makeRequestTitle, setMakeRequestTitle] = useState("Confirm");
+  const [isLoading, setIsLoading] = useState(false);
   const makeRequest = async () => {
-    console.log("making request");
 
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "image/jpeg");
+    setMakeRequestTitle("Loading...");
+    setIsLoading(true);
+
     var requestOptions = {
       method: 'POST',
-      headers: myHeaders,
-      body: this.props.route.params.b64,
+      headers: {
+        "Content-Type": "image/jpeg"
+      },
+      body: route.params.b64,
       redirect: 'follow'
     };
-
-    fetch("https://looking-glass-api.herokuapp.com/api/receipt", requestOptions)
+  
+    await fetch("https://looking-glass-api.herokuapp.com/api/receipt", requestOptions)
       .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error.message));
+      .then(result => {
+        console.log(result);
+        alert(result);
+      })
+      .catch(error => {
+        console.log('error', error)
+        alert(error)
+      });
+    setMakeRequestTitle("Confirm");
+    setIsLoading(false);
   }
 
   return (
@@ -31,7 +42,7 @@ const EditReceiptPhotoScreen = ({ route }) => {
           key={route.params.b64}
           source={{ uri: `data:image/png;base64,${route.params.b64}` }}
         />
-        <Button onPress={makeRequest} title="Confirm" color="#2FC6B7" />
+        <Button onPress={isLoading ? null : makeRequest} title={makeRequestTitle} color="#2FC6B7" />
       </View>
     </View>
   );
@@ -61,6 +72,10 @@ const styles = StyleSheet.create({
     width: "90%",
     height: "80%",
     marginBottom: 10
+  },
+  loading: {
+    position: "absolute",
+    zIndex: 100
   }
 });
 
