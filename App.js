@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { StyleSheet} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -15,8 +15,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-
-function Home() {
+function Home(props) {
+  console.log(props.route.params.data);
+  let data = props.route.params.data;
   return (
     <Tab.Navigator
       screenOptions={{
@@ -39,6 +40,7 @@ function Home() {
             <MaterialCommunityIcons name="fridge-outline" color={color} size={35} />
           ),
         }}
+        initialParams={{data}}
       />
       <Tab.Screen
         name="Scanner"
@@ -67,6 +69,38 @@ function Home() {
 }
 
 export default function App() {
+  const [data, setData] = useState([
+    {
+      name: "banana",
+      category: "produce",
+      quantity: 1,
+      expiration_date: "2023-03-10",
+      location: "counter"
+    },
+    {
+      name: "steak",
+      category: "meat",
+      quantity: 2,
+      expiration_date: "2023-02-25",
+      location: "freezer"
+    },
+    {
+      name: "egg",
+      category: "dairy",
+      quantity: 6,
+      expiration_date: "2023-03-28",
+      location: "fridge"
+    },
+    {
+      name: "apple",
+      category: "produce",
+      quantity: 3,
+      expiration_date: "2023-03-07",
+      location: "fridge"
+    },
+  
+  ]);
+
   return (
     <NavigationContainer style={styles.image}>
       <Stack.Navigator initialRouteName="Home">
@@ -74,11 +108,14 @@ export default function App() {
           name="Home"
           component={Home}
           options={{ headerShown: false }}
+          initialParams={{data:data}}
         />
         <Stack.Screen 
           name="Manual"
           component={Manual} 
           options={{headerShown: false}}
+          setOptions={{setData:setData}}
+          initialParams={{data:data}}
         />
         <Stack.Screen
           name="TakeReceiptPhotoScreen"
@@ -89,6 +126,12 @@ export default function App() {
           name="EditReceiptPhotoScreen"
           component={EditReceiptPhotoScreen}
           options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ScanReceiptScreen"
+          component={ScanReceiptScreen}
+          options={{headerShown: false}}
+          initialParams={{setData:setData}}
         />
       </Stack.Navigator>
     </NavigationContainer>

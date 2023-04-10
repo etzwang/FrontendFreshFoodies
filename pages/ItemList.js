@@ -10,14 +10,14 @@ function ItemList(props) {
 
   if (sort == 'category' || sort == 'location') {
     // create the lists of each
-    for (let i = 0; i < props.data[sort].length; i++) {
-      let sortName = props.data[sort][i];
+    for (let i = 0; i < props[sort].length; i++) {
+      let sortName = props[sort][i];
       sortCategoryList.push(sortName)
       inventory[sortName] = [];
     } 
     // add the items into the lists
-    for (let i = 0; i < props.data.inventory.length; i++) {
-      let item = props.data.inventory[i];
+    for (let i = 0; i < props.data.length; i++) {
+      let item = props.data[i];
       inventory[item[sort]].push(item);
     }
   } else if (sort == 'expiration_date') {
@@ -30,9 +30,9 @@ function ItemList(props) {
       inventory[sortName] = [];
     }
     // add items into the list
-    for (let i = 0; i < props.data.inventory.length; i++) {
-      let item = props.data.inventory[i];
-      let curr = new Date(props.data.inventory[i].expiration_date) // current item's date of expiration
+    for (let i = 0; i < props.data.length; i++) {
+      let item = props.data[i];
+      let curr = new Date(props.data[i].expiration_date) // current item's date of expiration
       let dateDiff = Math.trunc((curr - date) / (1000 * 3600 * 24)); // finding date diff
 
       // finding the right sort
@@ -48,7 +48,7 @@ function ItemList(props) {
       inventory[sortName].push(item);
     }
   } else if (sort == 'quantity') {
-    let quantitySort = props.data.inventory;
+    let quantitySort = props.data;
     quantitySort.sort(function(b, a){return b.quantity-a.quantity;});
     sortCategoryList.push("quantity");
     inventory["quantity"] = [];

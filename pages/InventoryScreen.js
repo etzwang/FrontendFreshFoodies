@@ -1,49 +1,25 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { ScrollView, StyleSheet, View, Text } from "react-native";
 import ItemList from "./ItemList";
 import SortDropDown from './SortDropDown';
 
 
-const InventoryScreen = () => {
-  const data = {
-    inventory: [
-      {
-        name: "banana",
-        category: "produce",
-        quantity: 1,
-        expiration_date: "2023-03-10",
-        location: "counter"
-      },
-      {
-        name: "steak",
-        category: "meat",
-        quantity: 2,
-        expiration_date: "2023-02-25",
-        location: "freezer"
-      },
-      {
-        name: "egg",
-        category: "dairy",
-        quantity: 6,
-        expiration_date: "2023-03-28",
-        location: "fridge"
-      },
-      {
-        name: "apple",
-        category: "produce",
-        quantity: 3,
-        expiration_date: "2023-03-07",
-        location: "fridge"
-      },
+const InventoryScreen = (props) => {
+  console.log("inside inventory screen")
+  console.log(props.route.params.data)
+  const data = props.route.params.data;
+  const sort_by = ["category", "expiration_date", "quantity", "location"]
+  const location = ["fridge", "freezer", "counter", "pantry"]
+  const category = ["produce", "meat", "dairy"]
   
-    ],
-    sort_by: ["category", "expiration_date", "quantity", "location"],
-    location: ["fridge", "freezer", "counter", "pantry"],
-    category: ["produce", "meat", "dairy"],
-    expiration_date: ["0", "2", "14", "30"],
-    quantity: [1, 2, 3, 4, 5]
-  };
-  
+  // if (props && props.route.params && props.route.params.newItem) {
+  //   const newItem = props.route.params.newItem;
+  //   console.log("pushing new item into database: ")
+  //   console.log(newItem)
+  //   setData([...data, newItem]);
+  //   data.inventory.push(newItem)
+  // }
+
   const [selected, setSelected] = React.useState("");
   return (
     <View style={styles.page}>
@@ -51,11 +27,9 @@ const InventoryScreen = () => {
       <View style={styles.form}>
         <View style={styles.container}>
           <View style={styles.sort}>
-            <SortDropDown sort={data.sort_by} setSelected={setSelected}/>
+            <SortDropDown sort={sort_by} setSelected={setSelected}/>
           </View>
-          {/* <View style={{height: '10%'}}></View> */}
-          <ItemList sort={selected} data={data}/>
-          {/* <View style={{height: '1%'}}></View> */}
+          <ItemList sort={selected} data={data} location={location} category={category}/>
         </View>
       </View>
     </View>

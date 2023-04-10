@@ -11,13 +11,13 @@ const ScanReceipt = () => {
     <Text style={styles.title}>Upload items</Text>
     <View style={styles.form}>
       <Button 
-        onPress={() => navigation.push("ScanReceipt")}
+        onPress={() => navigation.push("TakeReceiptPhotoScreen")}
         title="Scan Receipt"
         color="#2FC6B7"
       />
       <Text style={{ padding: "10%" }}>or</Text>
       <Button
-        onPress={() => navigation.navigate("Manual")}
+        onPress={() => navigation.push("Manual")}
         title="Manually Enter"
         color="#ADEBE7"
       />
