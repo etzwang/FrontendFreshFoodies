@@ -1,25 +1,22 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import { ScrollView, StyleSheet, View, Text } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { makeHTTPRequest } from './utils/HttpUtils.js';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getUserPersonalFridgeObject } from './utils/HttpUtils.js';
 
-async function getUserItems() {
-  var requestOptions = {
-    method: 'GET',
-    headers: {
-      "Content-Type": "application/json"
-    }
-  };
-
-  var response = await makeHTTPRequest(requestOptions, "https://looking-glass-api.herokuapp.com/api/me");
-  if (response === null) {
-    alert("failed to get your personal fridge items.")
-  }
-  console.log(response);
-}
 
 function ItemList(props) {
-  getUserItems()
+
+  useEffect(() => {
+    getUserPersonalFridgeObject()
+      .then((obj) => {
+        var foods = obj.foods;
+        // this is the food object, and is an array of object like this: 
+        // {"category":"produce","location":"fridge","name":"apple","quantity":1,"slug":"apple"}
+        console.log("pushing foods: " + JSON.stringify(foods))
+        props.data.push(...foods);
+      })
+  })
+
   // create inventory
   let inventory = {}
   let sortCategoryList = []
@@ -33,6 +30,8 @@ function ItemList(props) {
       sortCategoryList.push(sortName)
       inventory[sortName] = [];
     } 
+
+    var data = AsyncStorage.getItem("data")
     // add the items into the lists
     for (let i = 0; i < props.data.length; i++) {
       let item = props.data[i];

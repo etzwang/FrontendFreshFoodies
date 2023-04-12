@@ -16,7 +16,7 @@ const LoginScreen = () => {
       return;
     }
 
-    // try to login with the given email + password
+    // try to login with the given email
     console.log("making login request");
 
     var body = {

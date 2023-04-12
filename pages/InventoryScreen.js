@@ -1,13 +1,16 @@
-import React, { Component, useState } from "react";
-import { ScrollView, StyleSheet, View, Text } from "react-native";
+import React from "react";
+import { StyleSheet, View, Text } from "react-native";
 import ItemList from "./ItemList";
 import SortDropDown from './SortDropDown';
 
-
 const InventoryScreen = (props) => {
+  var data = []
+  if (props.route?.params?.data !== undefined) {
+    data.push(...props.route.params.data)
+  }
+
   console.log("inside inventory screen")
-  console.log(props.route.params.data)
-  const data = props.route.params.data;
+  // console.log(props.route.params.data)
   const sort_by = ["category", "expiration_date", "quantity", "location"]
   const location = ["fridge", "freezer", "counter", "pantry"]
   const category = ["produce", "meat", "dairy"]
@@ -29,7 +32,7 @@ const InventoryScreen = (props) => {
           <View style={styles.sort}>
             <SortDropDown sort={sort_by} setSelected={setSelected}/>
           </View>
-          <ItemList sort={selected} data={data} location={location} category={category}/>
+          <ItemList sort={selected} data = {data} location={location} category={category}/>
         </View>
       </View>
     </View>

@@ -3,6 +3,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import {View, StyleSheet, Text, TextInput, TouchableOpacity} from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { useNavigation } from "@react-navigation/native";
+import { makeHTTPRequest, getUserPersonalFridgeId } from './utils/HttpUtils.js';
 
 function Manual(props) {
   // console.log('inside manual')
@@ -29,22 +30,62 @@ function Manual(props) {
   ]);
 
   const navigation = useNavigation();
-  const onPress = () => {
-    if (name == null || quantity == null || categoryValue == null || locationValue == null || date == null) {
+  const onPress = async () => {
+    // if (name == null || quantity == null || categoryValue == null || locationValue == null || date == null) {
+    if (name == null || quantity == null || categoryValue == null || locationValue == null) { // no date for now
+      console.log("name: " + name);
+      console.log("quantity: " + quantity);
+      console.log("categoryValue: " + categoryValue);
+      console.log("locationValue: " + locationValue);
       console.log('must fill out everything in the form!')
     } else {
       let newItem = {
         name: name,
         category: categoryValue,
         quantity: quantity,
-        expiration_date: date,
+        // expiration_date: date,
         location: locationValue
       }
-      props.navigation.setOptions([...props.route.params.data, newItem]);
+      var res = await addNewFoodToPersonalFridge()
+      
+      // props.navigation.setOptions([...props.route.params.data, newItem]);
       navigation.navigate('Inventory')
     }
   };
   const title = 'submit';
+
+  const addNewFoodToPersonalFridge = async () => {
+    let fridgeId = await getUserPersonalFridgeId();
+    if (!fridgeId) {
+      alert("could not get your personal fridge ID");
+      return;
+    }
+
+    let foodToAdd = JSON.stringify([{
+      "slug": name,
+      "name": name,
+      "quantity": quantity,
+      "location": locationValue,
+      "category": categoryValue
+    }])
+
+    var requestOptions = {
+      method: 'PUT',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        "foods": foodToAdd,
+        "action": "add"
+      })
+    };
+  
+    var response = await makeHTTPRequest(requestOptions, "https://looking-glass-api.herokuapp.com/api/fridge/" + fridgeId + "/foods");
+    if (response === null) {
+      alert("failed to get your personal fridge items.")
+    }
+    console.log(response);
+  }
 
   return (
     <View style={styles.container}>
