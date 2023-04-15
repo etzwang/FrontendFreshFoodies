@@ -5,7 +5,8 @@ import LoginScreen from "./pages/login/LoginScreen.js";
 import Manual from "./pages/Manual.js";
 import HomeScreen from "./pages/HomeScreen";
 import TakeReceiptPhotoScreen from "./pages/receipt/TakeReceiptPhotoScreen";
-import EditReceiptPhotoScreen from "./pages/receipt/EditReceiptPhotoScreen";
+import ConfirmReceiptPhotoScreen from "./pages/receipt/ConfirmReceiptPhotoScreen";
+import ProcessReceiptPhotoScreen from "./pages/receipt/ProcessReceiptPhotoScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Text } from "react-native";
@@ -56,8 +57,13 @@ const App = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="EditReceiptPhotoScreen"
-              component={EditReceiptPhotoScreen}
+              name="ConfirmReceiptPhotoScreen"
+              component={ConfirmReceiptPhotoScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ProcessReceiptPhotoScreen"
+              component={ProcessReceiptPhotoScreen}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>
