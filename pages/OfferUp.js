@@ -1,10 +1,12 @@
-import React, { Component, useEffect, useMemo } from "react";
+import React, { Component, useEffect, useMemo, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
-import ItemList from "./ItemList";
+import OfferUpItemList from "./OfferUpItemList";
 import SortDropDown from "./SortDropDown";
+import Button from "./components/Button.js";
+import { useNavigation } from "@react-navigation/native";
 import { getUserPersonalFridgeObject } from "./utils/HttpUtils.js";
 
-const InventoryScreen = (navigation) => {
+const OfferUp = (navigation) => {
   const [data, setData] = React.useState([]);
   useEffect(() => {
     getUserPersonalFridgeObject().then((obj) => {
@@ -21,6 +23,8 @@ const InventoryScreen = (navigation) => {
   //   data.push(...props.route.params.data)
   // }
 
+  console.log("inside offerup screen");
+  // console.log(props.route.params.data)
   const sort_by = ["category", "expiration_date", "quantity", "location"];
   const location = ["fridge", "freezer", "counter", "pantry"];
   const category = ["produce", "meat", "dairy"];
@@ -32,8 +36,10 @@ const InventoryScreen = (navigation) => {
   //   setData([...data, newItem]);
   //   data.inventory.push(newItem)
   // }
+  const nav = useNavigation();
 
   const [selected, setSelected] = React.useState("");
+  var[foodArray, setfoodArray] = React.useState([]); // array of foods being selected to offer up
   return (
     <View style={styles.page}>
       <Text style={styles.title}>My Fridge</Text>
@@ -42,14 +48,22 @@ const InventoryScreen = (navigation) => {
           <View style={styles.sort}>
             <SortDropDown sort={sort_by} setSelected={setSelected} />
           </View>
-          <ItemList
+          <OfferUpItemList
             sort={selected}
             data={data}
             location={location}
             category={category}
             basket='inventory'
             details='Scan a receipt to upload your items'
+            foodArray={foodArray}
           />
+          <View style={styles.btn}>
+            <Button 
+              onPress={() => nav.push('HouseBasketScreen')}
+              title='Offer Up!'
+              color="#ADEBE7"
+            />
+          </View>
         </View>
       </View>
     </View>
@@ -95,6 +109,17 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 35,
     borderTopStartRadius: 35,
   },
+  btn: {
+    position: "sticky",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "flex-end",
+    maxHeight: "10%",
+    position: "absolute",
+    right: "5%",
+    bottom: "10%",
+    zIndex: 100
+  }
 });
 
-export default InventoryScreen;
+export default OfferUp;

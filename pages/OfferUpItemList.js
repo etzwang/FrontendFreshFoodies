@@ -9,9 +9,10 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getUserPersonalFridgeObject } from "./utils/HttpUtils.js";
 
-function ItemList(props) {
+function OfferUpItemList(props) {
 
   // create inventory
+  console.log("inside itemlist");
   let inventory = {};
   let sortCategoryList = [];
   let sort = props.sort ? props.sort : "category"; // if props sort is undefined - default is category
@@ -76,9 +77,10 @@ function ItemList(props) {
       inventory["quantity"].push(quantitySort[i]);
     }
   }
-  
-  function handlePress() {
-    console.log("I am doing nothing")
+
+  function handlePress (currItem) {
+    props.foodArray.push(currItem)
+    console.log(props.foodArray);
   }
 
   // now produce it onto the inventory
@@ -96,7 +98,7 @@ function ItemList(props) {
         let currItem = inventory[currSort][j].name;
         items.push(
           <TouchableOpacity
-            onPress={handlePress}
+            onPress={()=>handlePress(currItem)}
             style={styles.item}
             key={currItem + "_item"}
           >
@@ -165,6 +167,7 @@ function ItemList(props) {
       </Text>
     );
   }
+  console.log(inventoryContainer);
 
   return <ScrollView style={styles.container}>{inventoryContainer}</ScrollView>;
 }
@@ -232,7 +235,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ItemList;
+export default OfferUpItemList;
 
 let json = [
   {

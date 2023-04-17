@@ -31,6 +31,7 @@ const HomeScreen = () => {
             <MaterialCommunityIcons name="fridge-outline" color={color} size={35} />
           ),
         }}
+        initialParams={{}}
       />
       <Tab.Screen
         name="Scanner"

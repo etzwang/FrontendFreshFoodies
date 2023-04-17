@@ -9,6 +9,7 @@ import EditReceiptPhotoScreen from "./pages/receipt/EditReceiptPhotoScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Text } from "react-native";
+import OfferUp from "./pages/OfferUp";
 
 const Stack = createNativeStackNavigator();
 
@@ -58,6 +59,11 @@ const App = () => {
             <Stack.Screen
               name="EditReceiptPhotoScreen"
               component={EditReceiptPhotoScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="OfferUp"
+              component={OfferUp}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

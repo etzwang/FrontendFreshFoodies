@@ -49,7 +49,9 @@ function Manual(props) {
       var res = await addNewFoodToPersonalFridge()
       
       // props.navigation.setOptions([...props.route.params.data, newItem]);
-      navigation.navigate('Inventory')
+      navigation.navigate('Inventory', {
+        newData: newItem
+      })
     }
   };
   const title = 'submit';
