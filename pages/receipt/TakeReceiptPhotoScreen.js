@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Switch } from "react-native";
 import Button from "../components/Button.js";
 import { Camera, CameraType } from 'expo-camera';
 import { useNavigation, useIsFocused, useFocusEffect, useCallback } from "@react-navigation/native";
@@ -7,6 +7,7 @@ import { useNavigation, useIsFocused, useFocusEffect, useCallback } from "@react
 const TakeReceiptPhotoScreen = () => {
   const [camera, setCamera] = useState(null);
   const [isCameraReady, setIsCameraReady] = useState(false);
+  const [isFlash, setIsFlash] = useState(false);
   const [takePhotoTitle, setTakePhotoTitle] = useState("Take Photo");
 
   const isFocused = useIsFocused();
@@ -44,11 +45,11 @@ const TakeReceiptPhotoScreen = () => {
         const result = await camera.takePictureAsync(
           {
             base64: true,
-            quality: 0.1
+            quality: 0.8
           }
         );
         const b64 = result.base64;
-        navigation.push("EditReceiptPhotoScreen", { b64 })
+        navigation.push("ConfirmReceiptPhotoScreen", { b64 })
       }
     } catch (error) {
       console.log(error);
@@ -61,17 +62,27 @@ const TakeReceiptPhotoScreen = () => {
   return (
     <View style={styles.page}>
       <Text style={styles.title}>Upload items</Text>
-      <View style={styles.form}>
+        <View style={styles.form}>
+          <View style={styles.flashFlex}>
+            <Text>Flash</Text>
+            <Switch
+              onValueChange={setIsFlash}
+              value={isFlash}
+            />
+          </View>
         {
           isFocused &&
           <Camera
             ref={(ref) => setCamera(ref)}
             style={styles.camera}
             type={CameraType.back}
-            autoFocus={true}
+            autoFocus={ true }
             onCameraReady={() => setIsCameraReady(true)}
+            flashMode={ isFlash ? "on" : "off" }
           />
         }
+        <View style={styles.guideLines}>
+        </View>
         <Button onPress={takePhoto} title={takePhotoTitle} color="#2FC6B7" />
       </View>
     </View>
@@ -101,6 +112,23 @@ const styles = StyleSheet.create({
   camera: {
     width: "90%",
     height: "80%",
+    marginBottom: 10
+  },
+  guideLines: {
+    borderStyle: 'dotted',
+    borderWidth: 2,
+    position: 'absolute',
+    borderColor: "red",
+    top: "6.5%",
+    left: "25%",
+    width: "50%",
+    height: "80%",
+  },
+  flashFlex: {
+    flexDirection:"row",
+    justifyContent: "center",
+    alignItems: "stretch",
+    height: 20,
     marginBottom: 10
   }
 });

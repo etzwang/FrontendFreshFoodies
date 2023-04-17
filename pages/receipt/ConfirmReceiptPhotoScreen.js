@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import Button from "../components/Button.js";
 
-const EditReceiptPhotoScreen = ({ route }) => {
+const ConfirmReceiptPhotoScreen = ({ route }) => {
   const [makeRequestTitle, setMakeRequestTitle] = useState("Confirm");
   const [isLoading, setIsLoading] = useState(false);
-  const makeRequest = async () => {
 
+  const navigation = useNavigation();
+
+  const makeRequest = async () => {
     setMakeRequestTitle("Loading...");
     setIsLoading(true);
 
@@ -18,19 +21,19 @@ const EditReceiptPhotoScreen = ({ route }) => {
       body: route.params.b64,
       redirect: 'follow'
     };
-  
-    await fetch("https://looking-glass-api.herokuapp.com/api/receipt", requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        console.log(result);
-        alert(result);
-      })
-      .catch(error => {
-        console.log('error', error)
+    
+    let res;
+    try {
+      res = await fetch("https://looking-glass-api.herokuapp.com/api/receipt", requestOptions)
+    } catch (error) {
+      console.log('error', error)
         alert(error)
-      });
+    }
+    res = await res.json();
+    console.log(res);
     setMakeRequestTitle("Confirm");
     setIsLoading(false);
+    navigation.push("ProcessReceiptPhotoScreen", { text: res.text })
   }
 
   return (
@@ -79,4 +82,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default EditReceiptPhotoScreen;
+export default ConfirmReceiptPhotoScreen;
