@@ -38,20 +38,12 @@ const OfferUp = (navigation) => {
     fridgeIds = await getUserFridgeIds();
     console.log("FRIDGE IDS: " + fridgeIds);
     setfoodArray([]);
-    await addOrRemoveFoodFromFridge(fridgeIds[0], foodArray, "remove");
-    let processed = [];
+    let foodNameArray = [];
     for (let i = 0; i < foodArray.length; i++) {
-      let cur = foodArray[i];
-      let item = {
-        "slug": cur.slug,
-        "name": cur.name,
-        "quantity": cur.quantity,
-        "location": cur.location,
-        "category": cur.category
-      }
-      processed.push(item)
+      foodNameArray.push(foodArray[i].slug)
     }
-    await addOrRemoveFoodFromFridge(fridgeIds[1], processed, "add")
+    await addOrRemoveFoodFromFridge(fridgeIds[0], foodNameArray, "remove");
+    await addOrRemoveFoodFromFridge(fridgeIds[1], foodArray, "add")
     nav.navigate('Inventory', {
       newData: 'newItem'
     })
