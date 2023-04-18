@@ -11,6 +11,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Text } from "react-native";
 import OfferUp from "./pages/OfferUp";
+import CreateFridge from "./pages/CreateFridge.js";
 
 const Stack = createNativeStackNavigator();
 
@@ -70,6 +71,11 @@ const App = () => {
             <Stack.Screen
               name="OfferUp"
               component={OfferUp}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="CreateFridge"
+              component={CreateFridge}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

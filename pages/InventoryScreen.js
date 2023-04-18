@@ -3,37 +3,48 @@ import { StyleSheet, View, Text } from "react-native";
 import ItemList from "./ItemList";
 import SortDropDown from "./SortDropDown";
 import { getUserPersonalFridgeObject } from "./utils/HttpUtils.js";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const InventoryScreen = (navigation) => {
   const [data, setData] = React.useState([]);
+  const sort_by = ["category", "expiration_date", "quantity", "location"];
+  const location = ["fridge", "freezer", "counter", "pantry"];
+  const category = ["produce", "meat", "dairy"];
+  const [selected, setSelected] = React.useState("");
+  var inventory = [];
+  
   useEffect(() => {
     getUserPersonalFridgeObject().then((obj) => {
       var foods = obj.foods;
       // this is the food object, and is an array of object like this:
       // {"category":"produce","location":"fridge","name":"apple","quantity":1,"slug":"apple"}
       console.log("pushing foods: " + JSON.stringify(foods));
-      // props.data.push(...foods);
       setData(foods);
     });
   }, [navigation?.route?.params?.newData]);
 
-  // if (props.route?.params?.data !== undefined) {
-  //   data.push(...props.route.params.data)
-  // }
+  if (data.length == 0) {
+    inventory.push(
+      <View style={styles.form}>
+        <Text style={styles.empty} key={0}>
+          It looks like your inventory is empty.
+        </Text>
+        <Text style={styles.empty} key={1}>
+          Scan a receipt to upload your items
+        </Text>
+      </View>
+    );
+  } else {
+    inventory = (
+      <ItemList
+        sort={selected}
+        data={data}
+        location={location}
+        category={category}
+      />
+    );
+  }
 
-  const sort_by = ["category", "expiration_date", "quantity", "location"];
-  const location = ["fridge", "freezer", "counter", "pantry"];
-  const category = ["produce", "meat", "dairy"];
-
-  // if (props && props.route.params && props.route.params.newItem) {
-  //   const newItem = props.route.params.newItem;
-  //   console.log("pushing new item into database: ")
-  //   console.log(newItem)
-  //   setData([...data, newItem]);
-  //   data.inventory.push(newItem)
-  // }
-
-  const [selected, setSelected] = React.useState("");
   return (
     <View style={styles.page}>
       <Text style={styles.title}>My Fridge</Text>
@@ -42,14 +53,7 @@ const InventoryScreen = (navigation) => {
           <View style={styles.sort}>
             <SortDropDown sort={sort_by} setSelected={setSelected} />
           </View>
-          <ItemList
-            sort={selected}
-            data={data}
-            location={location}
-            category={category}
-            basket='inventory'
-            details='Scan a receipt to upload your items'
-          />
+          {inventory}
         </View>
       </View>
     </View>
@@ -95,6 +99,9 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 35,
     borderTopStartRadius: 35,
   },
+  empty: {
+    fontSize: 18
+  }
 });
 
 export default InventoryScreen;

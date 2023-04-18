@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getUserPersonalFridgeObject } from "./utils/HttpUtils.js";
 
 function ItemList(props) {
 
@@ -152,20 +151,6 @@ function ItemList(props) {
       );
     }
   }
-
-  if (inventoryContainer.length == 0) {
-    inventoryContainer.push(
-      <Text style={styles.empty} key={0}>
-        It looks like your {props.basket} is empty.
-      </Text>
-    );
-    inventoryContainer.push(
-      <Text style={styles.empty} key={1}>
-        {props.details}
-      </Text>
-    );
-  }
-
   return <ScrollView style={styles.container}>{inventoryContainer}</ScrollView>;
 }
 

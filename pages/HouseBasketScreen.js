@@ -1,28 +1,39 @@
-import React, { Component, useEffect, useMemo, useState } from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Button from "./components/Button.js";
 import Fridge from "../assets/fridge.svg";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationHelpersContext, useNavigation } from "@react-navigation/native";
 import { getUserSharedFridgeObject } from "./utils/HttpUtils.js";
 
-
 const HouseBasketScreen = () => {
-  const [data, setData] = React.useState([]);
+  const [houseData, setHouseData] = React.useState(null);
+  const navigation = useNavigation();
+  var inventory = [];
   useEffect(() => {
     getUserSharedFridgeObject().then((obj) => {
       var foods = obj.foods;
       // this is the food object, and is an array of object like this:
       // {"category":"produce","location":"fridge","name":"apple","quantity":1,"slug":"apple"}
       console.log("pushing foods: " + JSON.stringify(foods));
-      // props.data.push(...foods);
-      setData(foods);
+      setHouseData(foods);
     });
-  }, [navigation?.route?.params?.newData]);
-  const navigation = useNavigation();
+    // }, [navigation?.route?.params?.newData]);
+  }, []);
 
-  return (
-    <View style={styles.page}>
-      <Text style={styles.title}>Shared Fridge</Text>
+  console.log(houseData);
+  if (!houseData) { // shared fridge has not been created
+    inventory = (
+      <View style={styles.form}>
+        <Button
+          onPress={() => navigation.push('CreateFridge')}
+          title="Create Shared Fridge"
+          color="#2FC6B7"
+          width={300}
+        />
+      </View>
+    );
+  } else if (houseData.length == 0) {
+    inventory = (
       <View style={styles.form}>
         <Fridge width={115} height={215} />
         <Text style={{ padding: "10%" }}>
@@ -38,6 +49,22 @@ const HouseBasketScreen = () => {
           width={150}
         />
       </View>
+    );
+  } else {
+    inventory = (
+      <ItemList
+        sort={selected}
+        data={data}
+        location={location}
+        category={category}
+      />
+    );
+  }
+
+  return (
+    <View style={styles.page}>
+      <Text style={styles.title}>Shared Fridge</Text>
+      {inventory}
     </View>
   );
 };
@@ -63,7 +90,7 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 35,
     borderTopStartRadius: 35,
     backgroundColor: "#FFFFFF",
-  }
+  },
 });
 
 export default HouseBasketScreen;

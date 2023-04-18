@@ -12,6 +12,14 @@ import {
 
 const OfferUp = (navigation) => {
   const [data, setData] = React.useState([]);
+  const sort_by = ["category", "expiration_date", "quantity", "location"];
+  const location = ["fridge", "freezer", "counter", "pantry"];
+  const category = ["produce", "meat", "dairy"];
+  const nav = useNavigation();
+  const [selected, setSelected] = React.useState("");
+  const [foodArray, setfoodArray] = React.useState([]); // array of foods being selected to offer up
+
+
   useEffect(() => {
     getUserPersonalFridgeObject().then((obj) => {
       if (obj === undefined) {
@@ -25,24 +33,16 @@ const OfferUp = (navigation) => {
     });
   }, [navigation?.route?.params?.newData]);
 
-  console.log("inside offerup screen");
-  // console.log(props.route.params.data)
-  const sort_by = ["category", "expiration_date", "quantity", "location"];
-  const location = ["fridge", "freezer", "counter", "pantry"];
-  const category = ["produce", "meat", "dairy"];
-  const nav = useNavigation();
-
-  const [selected, setSelected] = React.useState("");
-  var [foodArray, setfoodArray] = React.useState([]); // array of foods being selected to offer up
-
   const handleOfferUp = async () => {
     console.log(foodArray);
     fridgeIds = await getUserFridgeIds();
     console.log("FRIDGE IDS: " + fridgeIds);
     setfoodArray([]);
-    addOrRemoveFoodFromFridge(fridgeIds[0], foodArray, "remove");
+    await addOrRemoveFoodFromFridge(fridgeIds[0], foodArray, "remove");
     // addOrRemoveFoodFromFridge(fridgeIds[1], foodArray, "add")
-    nav.goBack();
+    nav.navigate('Inventory', {
+      newData: 'newItem'
+    })
   };
 
   return (

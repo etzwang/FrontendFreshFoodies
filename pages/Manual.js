@@ -1,13 +1,11 @@
 import React, {useState} from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {View, StyleSheet, Text, TextInput, TouchableOpacity} from 'react-native';
-import DatePicker from 'react-native-datepicker';
+// import DatePicker from 'react-native-datepicker';
 import { useNavigation } from "@react-navigation/native";
-import { makeHTTPRequest, getUserPersonalFridgeId } from './utils/HttpUtils.js';
+import { makeHTTPRequest, getUserFridgeIds } from './utils/HttpUtils.js';
 
 function Manual(props) {
-  // console.log('inside manual')
-  // console.log(props.navigation.setOptions)
   const [name, setName] = useState(null);
   const [quantity, setQuantity] = useState(null);
   const [date, setDate] = useState(null)
@@ -57,7 +55,7 @@ function Manual(props) {
   const title = 'submit';
 
   const addNewFoodToPersonalFridge = async () => {
-    let fridgeId = await getUserPersonalFridgeId();
+    let fridgeId = (await getUserFridgeIds())[0];
     if (!fridgeId) {
       alert("could not get your personal fridge ID");
       return;
@@ -113,7 +111,7 @@ function Manual(props) {
         keyboardType="numeric"
       />
       <Text style={styles.form}>expiration date:</Text>
-      <DatePicker 
+      {/* <DatePicker 
         date={date}
         mode="date" //The enum of date, datetime and time
         placeholder="-"
@@ -124,7 +122,7 @@ function Manual(props) {
         onDateChange={(date) => {
           setDate(date);
         }}
-      />
+      /> */}
       <Text style={styles.form}>category</Text>
       <View style={styles.dropdownCtner1}>
         <DropDownPicker
