@@ -1,14 +1,18 @@
 import * as React from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { createFridge } from './utils/HttpUtils.js';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const CreateFridge = () => {
   const navigation = useNavigation();
   const [name, setName] = React.useState(null);
 
-  function submit() {
+  async function submit() {
     alert('this is the name: ' + name)
+    const email = await AsyncStorage.getItem("user_email")
+    createFridge(email, name)
     navigation.goBack()
   }
   return (

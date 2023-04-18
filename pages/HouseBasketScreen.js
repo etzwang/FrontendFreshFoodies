@@ -4,6 +4,7 @@ import Button from "./components/Button.js";
 import Fridge from "../assets/fridge.svg";
 import { NavigationHelpersContext, useNavigation } from "@react-navigation/native";
 import { getUserSharedFridgeObject } from "./utils/HttpUtils.js";
+import ItemList from "./ItemList.js";
 
 const HouseBasketScreen = () => {
   const [houseData, setHouseData] = React.useState(null);

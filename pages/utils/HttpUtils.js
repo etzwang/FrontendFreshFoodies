@@ -105,3 +105,27 @@ export const addOrRemoveFoodFromFridge = async (fridgeId, foodArray, action) => 
   console.log(JSON.stringify(response))
   return response;
 }
+
+export const createFridge = async (email, slug) => {
+  console.log("creating fridge", email, slug)
+  var body = {
+    email,
+    slug
+  }
+  var requestOptions = {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body)
+  };
+
+  var response = makeHTTPRequest(requestOptions, "https://looking-glass-api.herokuapp.com/api/fridge");
+
+  if (!response) {
+    alert("fridge creation failed")
+    return;
+  }
+
+  console.log("fridge creation succeeded, response: " + JSON.stringify(response))
+}
