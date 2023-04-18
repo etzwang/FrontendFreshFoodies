@@ -14,32 +14,26 @@ const OfferUp = (navigation) => {
       // this is the food object, and is an array of object like this:
       // {"category":"produce","location":"fridge","name":"apple","quantity":1,"slug":"apple"}
       console.log("pushing foods: " + JSON.stringify(foods));
-      // props.data.push(...foods);
       setData(foods);
     });
   }, [navigation?.route?.params?.newData]);
 
-  // if (props.route?.params?.data !== undefined) {
-  //   data.push(...props.route.params.data)
-  // }
 
   console.log("inside offerup screen");
   // console.log(props.route.params.data)
   const sort_by = ["category", "expiration_date", "quantity", "location"];
   const location = ["fridge", "freezer", "counter", "pantry"];
   const category = ["produce", "meat", "dairy"];
-
-  // if (props && props.route.params && props.route.params.newItem) {
-  //   const newItem = props.route.params.newItem;
-  //   console.log("pushing new item into database: ")
-  //   console.log(newItem)
-  //   setData([...data, newItem]);
-  //   data.inventory.push(newItem)
-  // }
   const nav = useNavigation();
 
   const [selected, setSelected] = React.useState("");
   var[foodArray, setfoodArray] = React.useState([]); // array of foods being selected to offer up
+  function handleButton() {
+    console.log('handling the offer up btn!')
+    console.log(foodArray)
+    setfoodArray([]);
+    nav.goBack()
+  }
   return (
     <View style={styles.page}>
       <Text style={styles.title}>My Fridge</Text>
@@ -59,7 +53,7 @@ const OfferUp = (navigation) => {
           />
           <View style={styles.btn}>
             <Button 
-              onPress={() => nav.push('HouseBasketScreen')}
+              onPress={() => handleButton()}
               title='Offer Up!'
               color="#ADEBE7"
             />
