@@ -9,7 +9,6 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function OfferUpItemList(props) {
-
   // create inventory
   let inventory = {};
   let sortCategoryList = [];
@@ -91,20 +90,21 @@ function OfferUpItemList(props) {
 
         const [clicked, setClicked] = useState(false);
 
-        function handlePress (currItem) {
-          if(!props.foodArray.includes(currItem)){          //checking weather array contain the id
-            props.foodArray.push(currItem);               //adding to array because value doesnt exists
-          }else{
-            props.foodArray.splice(props.foodArray.indexOf(currItem), 1);  //deleting
+        function handlePress(currItem) {
+          if (!props.foodArray.includes(currItem)) {
+            //checking weather array contain the id
+            props.foodArray.push(currItem); //adding to array because value doesnt exists
+          } else {
+            props.foodArray.splice(props.foodArray.indexOf(currItem), 1); //deleting
           }
           // props.foodArray.push(currItem);
           console.log(props.foodArray);
-          setClicked(current => !current);
+          setClicked((current) => !current);
         }
 
         items.push(
           <TouchableOpacity
-            onPress={()=>handlePress(currItem)}
+            onPress={() => handlePress(currItem)}
             key={currItem + "_item"}
             style={{
               margin: "1%",
@@ -115,14 +115,14 @@ function OfferUpItemList(props) {
               alignItems: "center",
               borderWidth: clicked ? 3 : 1,
               borderRadius: 10,
-              borderColor: clicked ? '#2FC6B7' : 'grey',
+              borderColor: clicked ? "#2FC6B7" : "grey",
               shadowColor: "grey",
               shadowOpacity: 0.8,
               shadowRadius: 4,
               shadowOffset: {
                 height: 1,
                 width: 1,
-              }
+              },
             }}
           >
             <Text style={{ fontSize: 20 }} key={currItem + "_item_text"}>

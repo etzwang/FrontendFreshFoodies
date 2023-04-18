@@ -4,12 +4,19 @@ import OfferUpItemList from "./OfferUpItemList";
 import SortDropDown from "./SortDropDown";
 import Button from "./components/Button.js";
 import { useNavigation } from "@react-navigation/native";
-import { getUserPersonalFridgeObject } from "./utils/HttpUtils.js";
+import {
+  getUserPersonalFridgeObject,
+  getUserFridgeIds,
+  addOrRemoveFoodFromFridge,
+} from "./utils/HttpUtils.js";
 
 const OfferUp = (navigation) => {
   const [data, setData] = React.useState([]);
   useEffect(() => {
     getUserPersonalFridgeObject().then((obj) => {
+      if (obj === undefined) {
+        alert("no shared fridge or failed to get shared fridge");
+      }
       var foods = obj.foods;
       // this is the food object, and is an array of object like this:
       // {"category":"produce","location":"fridge","name":"apple","quantity":1,"slug":"apple"}
@@ -17,7 +24,6 @@ const OfferUp = (navigation) => {
       setData(foods);
     });
   }, [navigation?.route?.params?.newData]);
-
 
   console.log("inside offerup screen");
   // console.log(props.route.params.data)
@@ -27,13 +33,18 @@ const OfferUp = (navigation) => {
   const nav = useNavigation();
 
   const [selected, setSelected] = React.useState("");
-  var[foodArray, setfoodArray] = React.useState([]); // array of foods being selected to offer up
-  function handleButton() {
-    console.log('handling the offer up btn!')
-    console.log(foodArray)
+  var [foodArray, setfoodArray] = React.useState([]); // array of foods being selected to offer up
+
+  const handleOfferUp = async () => {
+    console.log(foodArray);
+    fridgeIds = await getUserFridgeIds();
+    console.log("FRIDGE IDS: " + fridgeIds);
     setfoodArray([]);
-    nav.goBack()
-  }
+    addOrRemoveFoodFromFridge(fridgeIds[0], foodArray, "remove");
+    // addOrRemoveFoodFromFridge(fridgeIds[1], foodArray, "add")
+    nav.goBack();
+  };
+
   return (
     <View style={styles.page}>
       <Text style={styles.title}>My Fridge</Text>
@@ -47,14 +58,14 @@ const OfferUp = (navigation) => {
             data={data}
             location={location}
             category={category}
-            basket='inventory'
-            details='Scan a receipt to upload your items'
+            basket="inventory"
+            details="Scan a receipt to upload your items"
             foodArray={foodArray}
           />
           <View style={styles.btn}>
-            <Button 
-              onPress={() => handleButton()}
-              title='Offer Up!'
+            <Button
+              onPress={() => handleOfferUp()}
+              title="Offer Up!"
               color="#ADEBE7"
             />
           </View>
@@ -112,8 +123,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: "5%",
     bottom: "10%",
-    zIndex: 100
-  }
+    zIndex: 100,
+  },
 });
 
 export default OfferUp;

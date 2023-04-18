@@ -1,10 +1,23 @@
-import * as React from "react";
+import React, { Component, useEffect, useMemo, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Button from "./components/Button.js";
 import Fridge from "../assets/fridge.svg";
 import { useNavigation } from "@react-navigation/native";
+import { getUserSharedFridgeObject } from "./utils/HttpUtils.js";
+
 
 const HouseBasketScreen = () => {
+  const [data, setData] = React.useState([]);
+  useEffect(() => {
+    getUserSharedFridgeObject().then((obj) => {
+      var foods = obj.foods;
+      // this is the food object, and is an array of object like this:
+      // {"category":"produce","location":"fridge","name":"apple","quantity":1,"slug":"apple"}
+      console.log("pushing foods: " + JSON.stringify(foods));
+      // props.data.push(...foods);
+      setData(foods);
+    });
+  }, [navigation?.route?.params?.newData]);
   const navigation = useNavigation();
 
   return (
@@ -22,6 +35,7 @@ const HouseBasketScreen = () => {
           onPress={() => navigation.push("OfferUp")}
           title="Offer Up"
           color="#2FC6B7"
+          width={150}
         />
       </View>
     </View>
@@ -49,7 +63,7 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 35,
     borderTopStartRadius: 35,
     backgroundColor: "#FFFFFF",
-  },
+  }
 });
 
 export default HouseBasketScreen;
