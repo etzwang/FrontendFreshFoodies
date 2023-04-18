@@ -80,7 +80,7 @@ function OfferUpItemList(props) {
 
   function handlePress (currItem) {
     props.foodArray.push(currItem)
-    console.log(props.foodArray);
+    // console.log(props.foodArray);
   }
 
   // now produce it onto the inventory

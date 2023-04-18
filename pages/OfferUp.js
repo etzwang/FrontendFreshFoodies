@@ -4,12 +4,15 @@ import OfferUpItemList from "./OfferUpItemList";
 import SortDropDown from "./SortDropDown";
 import Button from "./components/Button.js";
 import { useNavigation } from "@react-navigation/native";
-import { getUserPersonalFridgeObject } from "./utils/HttpUtils.js";
+import { getUserPersonalFridgeObject, getUserFridgeIds, addOrRemoveFoodFromFridge } from "./utils/HttpUtils.js";
 
 const OfferUp = (navigation) => {
   const [data, setData] = React.useState([]);
   useEffect(() => {
     getUserPersonalFridgeObject().then((obj) => {
+      if (obj === undefined) {
+        alert("no shared fridge or failed to get shared fridge")
+      }
       var foods = obj.foods;
       // this is the food object, and is an array of object like this:
       // {"category":"produce","location":"fridge","name":"apple","quantity":1,"slug":"apple"}
@@ -40,6 +43,16 @@ const OfferUp = (navigation) => {
 
   const [selected, setSelected] = React.useState("");
   var[foodArray, setfoodArray] = React.useState([]); // array of foods being selected to offer up
+
+  const handleOfferUp = async () => {
+    console.log(foodArray)
+    fridgeIds = await getUserFridgeIds()
+    console.log("FRIDGE IDS: " + fridgeIds)
+    addOrRemoveFoodFromFridge(fridgeIds[0], foodArray, "remove")
+    // addOrRemoveFoodFromFridge(fridgeIds[1], foodArray, "add")
+    // nav.push('HouseBasketScreen')
+  }
+
   return (
     <View style={styles.page}>
       <Text style={styles.title}>My Fridge</Text>
@@ -59,7 +72,7 @@ const OfferUp = (navigation) => {
           />
           <View style={styles.btn}>
             <Button 
-              onPress={() => nav.push('HouseBasketScreen')}
+              onPress={() => handleOfferUp()}
               title='Offer Up!'
               color="#ADEBE7"
             />
