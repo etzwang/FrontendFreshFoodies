@@ -1,9 +1,9 @@
-import React, { Component, useEffect, useMemo } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { Component, useCallback, useEffect, useMemo } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import ItemList from "./ItemList";
 import SortDropDown from "./SortDropDown";
 import { getUserPersonalFridgeObject } from "./utils/HttpUtils.js";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const InventoryScreen = (navigation) => {
   const [data, setData] = React.useState([]);
@@ -12,16 +12,18 @@ const InventoryScreen = (navigation) => {
   const category = ["produce", "meat", "dairy"];
   const [selected, setSelected] = React.useState("");
   var inventory = [];
-  
-  useEffect(() => {
-    getUserPersonalFridgeObject().then((obj) => {
-      var foods = obj.foods;
-      // this is the food object, and is an array of object like this:
-      // {"category":"produce","location":"fridge","name":"apple","quantity":1,"slug":"apple"}
-      console.log("pushing foods: " + JSON.stringify(foods));
-      setData(foods);
-    });
-  }, [navigation?.route?.params?.newData]);
+
+  useFocusEffect(
+    useCallback(() => {
+      getUserPersonalFridgeObject().then((obj) => {
+        var foods = obj.foods;
+        // this is the food object, and is an array of object like this:
+        // {"category":"produce","location":"fridge","name":"apple","quantity":1,"slug":"apple"}
+        console.log("pushing foods: " + JSON.stringify(foods));
+        setData(foods);
+      });
+    }, [navigation?.route?.params?.newData])
+  );
 
   if (data.length == 0) {
     inventory.push(
@@ -100,8 +102,8 @@ const styles = StyleSheet.create({
     borderTopStartRadius: 35,
   },
   empty: {
-    fontSize: 18
-  }
+    fontSize: 18,
+  },
 });
 
 export default InventoryScreen;

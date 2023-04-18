@@ -43,11 +43,11 @@ const OfferUp = (navigation) => {
     for (let i = 0; i < foodArray.length; i++) {
       let cur = foodArray[i];
       let item = {
-        "slug": cur,
-        "name": cur,
-        "quantity": 1,
-        "location": "fridge",
-        "category": "meat"
+        "slug": cur.slug,
+        "name": cur.name,
+        "quantity": cur.quantity,
+        "location": cur.location,
+        "category": cur.category
       }
       processed.push(item)
     }
@@ -75,10 +75,15 @@ const OfferUp = (navigation) => {
             foodArray={foodArray}
           />
           <View style={styles.btn}>
+            <Button 
+              onPress={() => nav.goBack()}
+              title='back'
+              color="#ADEBE7"
+            />
             <Button
               onPress={() => handleOfferUp()}
               title="Offer Up!"
-              color="#ADEBE7"
+              color="#2FC6B7"
             />
           </View>
         </View>

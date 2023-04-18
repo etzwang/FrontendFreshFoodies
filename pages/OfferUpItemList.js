@@ -22,7 +22,7 @@ function OfferUpItemList(props) {
       inventory[sortName] = [];
     }
 
-    var data = AsyncStorage.getItem("data");
+    // var data = AsyncStorage.getItem("data");
     // add the items into the lists
     for (let i = 0; i < props.data.length; i++) {
       let item = props.data[i];
@@ -104,7 +104,7 @@ function OfferUpItemList(props) {
 
         items.push(
           <TouchableOpacity
-            onPress={() => handlePress(currItem)}
+            onPress={() => handlePress(inventory[currSort][j])}
             key={currItem + "_item"}
             style={{
               margin: "1%",
