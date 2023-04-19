@@ -64,6 +64,7 @@ const HouseBasketScreen = (navigation) => {
         data={houseData}
         location={location}
         category={category}
+        isPersonalFridge={false}
       />
     );
   }

@@ -7,9 +7,10 @@ import {
   TouchableOpacity,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 function ItemList(props) {
-
+  const navigation = useNavigation();
   // create inventory
   let inventory = {};
   let sortCategoryList = [];
@@ -76,8 +77,9 @@ function ItemList(props) {
     }
   }
   
-  function handlePress() {
-    console.log("I am doing nothing")
+  function handlePress(currItem) {
+    let isPersonalFridge = props.isPersonalFridge ? true : false
+    navigation.push("DeleteSingleItemScreen", { item: currItem, isPersonalFridge })
   }
 
   // now produce it onto the inventory
@@ -95,7 +97,7 @@ function ItemList(props) {
         let currItem = inventory[currSort][j].name;
         items.push(
           <TouchableOpacity
-            onPress={handlePress}
+            onPress={() => handlePress(inventory[currSort][j])}
             style={styles.item}
             key={currItem + "_item"}
           >

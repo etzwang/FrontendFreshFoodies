@@ -133,7 +133,6 @@ const LoginScreen = () => {
           width={150}
         />
       </View>
-      <Text style={{ padding: "10%" }}>PLEASE DO NOT USE A PASSWORD YOU CARE ABOUT, USE ONLY FOR TESTING</Text>
       <View style={styles.buttonFlex}>
         <Button
           onPress={loginDemoAccount}

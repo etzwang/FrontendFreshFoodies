@@ -35,7 +35,7 @@ const OfferUp = (navigation) => {
 
   const handleOfferUp = async () => {
     console.log(foodArray);
-    fridgeIds = await getUserFridgeIds();
+    const fridgeIds = await getUserFridgeIds();
     console.log("FRIDGE IDS: " + fridgeIds);
     setfoodArray([]);
     let foodNameArray = [];

@@ -11,7 +11,7 @@ const ScanReceipt = () => {
     <Text style={styles.title}>Upload items</Text>
     <View style={styles.form}>
       <Button 
-        onPress={() => navigation.push("ProcessReceiptPhotoScreen")}
+        onPress={() => navigation.push("TakeReceiptPhotoScreen")}
         title="Scan Receipt"
         color="#2FC6B7"
       />

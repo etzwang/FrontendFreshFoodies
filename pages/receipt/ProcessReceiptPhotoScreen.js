@@ -17,13 +17,18 @@ import Dairy from "../../assets/dairy.svg";
 import Fruit from "../../assets/fruit.svg";
 import Meat from "../../assets/meat.svg";
 
+import {
+  getUserFridgeIds,
+  addOrRemoveFoodFromFridge,
+} from "../utils/HttpUtils.js";
+
 
 const ProcessReceiptPhotoScreen = ({ route }) => {
     // route.params.text
     const navigation = useNavigation();
 
-    // let detected_items = route.params.text.map(v => v.toLowerCase());
-    let detected_items = ["yogurt", "rice", "bread", "beef", "cabbage", "ham", "yogurt", "yogurt"]
+    let detected_items = route.params.text.map(v => v.toLowerCase());
+    // let detected_items = ["yogurt", "rice", "bread", "beef", "cabbage", "ham", "yogurt", "yogurt"]
 
     var items = [];
     var count = 0;
@@ -128,7 +133,7 @@ const ProcessReceiptPhotoScreen = ({ route }) => {
       setFoodData([...foodData, emptyFoodData])
     }
 
-    const sendFoodData = _ => {
+    const sendFoodData = async (foodData) => {
       // David send the fooddata to the backend
       // here is an example what the foodData variable would look like:
       //   foodData = [
@@ -151,6 +156,21 @@ const ProcessReceiptPhotoScreen = ({ route }) => {
       //       loc: "string"
       //     }
       //   ]
+      console.log(JSON.stringify(foodData))
+      let processed = []
+      for (let i = 0; i < foodData.length; i++) {
+        let cur = foodData[i];
+        processed.push({
+          name: cur.name,
+          slug: cur.name,
+          category: cur.category,
+          location: cur.loc,
+          quantity: cur.qty
+        })
+      }
+      const fridgeIds = await getUserFridgeIds();
+      await addOrRemoveFoodFromFridge(fridgeIds[0], processed, "add")
+      navigation.navigate('Home')
     }
 
     // console.log(categoryValue)
@@ -267,11 +287,10 @@ const ProcessReceiptPhotoScreen = ({ route }) => {
               </Modal>
 
               <ScrollView style={styles.form}>
-                
                 {foodData.map((item) => 
                   {
                     return (
-                      <View style={styles.box}>
+                      <View style={styles.box} key={item.id}>
                         <View style={styles.margin} />
                         <View style={styles.row}>
                           
@@ -393,7 +412,7 @@ const ProcessReceiptPhotoScreen = ({ route }) => {
                 <View style={styles.margin} />
                 <View style={{alignItems: "flex-end", width: "90%"}}>
                   <Button 
-                    onPress={() => {sendFoodData()}}
+                    onPress={() => {sendFoodData(foodData)}}
                     title="Add All"
                     color="#2FC6B7"
                     width={103}

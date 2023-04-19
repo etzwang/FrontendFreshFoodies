@@ -43,6 +43,7 @@ const InventoryScreen = (navigation) => {
         data={data}
         location={location}
         category={category}
+        isPersonalFridge={true}
       />
     );
   }

@@ -4,7 +4,10 @@ const FoodDictionary = {
     "cabbage": ["Cabbage", "produce"],
     "ham": ["Ham", "meat"],
     "beef": ["Beef", "meat"],
-    "yogurt": ["Yogurt", "dairy"]
+    "yogurt": ["Yogurt", "dairy"],
+    "pizza": ["Pizza", "meat"],
+    "milk": ["Milk", "dairy"],
+    "chicken": ["Chicken", "meat"]
 }
 
 export default FoodDictionary
