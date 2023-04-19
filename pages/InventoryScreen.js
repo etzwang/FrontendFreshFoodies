@@ -1,17 +1,24 @@
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import React, { Component, useCallback, useEffect, useMemo } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import ItemList from "./ItemList";
 import SortDropDown from "./SortDropDown";
-import { getUserPersonalFridgeObject } from "./utils/HttpUtils.js";
+import Button from "./components/Button.js";
+import {
+  getUserPersonalFridgeObject,
+  getUserFridgeIds,
+  addOrRemoveFoodFromFridge,
+} from "./utils/HttpUtils.js";
 
 const InventoryScreen = (navigation) => {
+  const nav = useNavigation();
   const [data, setData] = React.useState([]);
   const sort_by = ["category", "expiration_date", "quantity", "location"];
   const location = ["fridge", "freezer", "counter", "pantry"];
   const category = ["produce", "meat", "dairy"];
   const [selected, setSelected] = React.useState("");
   var inventory = [];
+  const [foodArray, setfoodArray] = React.useState([]); // array of foods being selected to delete
 
   useFocusEffect(
     useCallback(() => {
@@ -22,16 +29,29 @@ const InventoryScreen = (navigation) => {
         console.log("pushing foods: " + JSON.stringify(foods));
         setData(foods);
       });
-    }, [navigation?.route?.params?.newData])
+    }, [navigation?.route?.params?.newData, handleRemove])
   );
+
+  const handleRemove = async () => {
+    console.log(foodArray);
+    const fridgeIds = await getUserFridgeIds();
+    let foodNameArray = [];
+    for (let i = 0; i < foodArray.length; i++) {
+      console.log('handle remove: ' + foodArray[i].slug)
+      foodNameArray.push(foodArray[i].slug);
+    }
+    await addOrRemoveFoodFromFridge(fridgeIds[0], foodNameArray, "remove");
+    setfoodArray([]);
+    nav.navigate("Inventory");
+  };
 
   if (data.length == 0) {
     inventory.push(
-      <View style={styles.form}>
-        <Text style={styles.empty} key={0}>
+      <View style={styles.form} key={0}>
+        <Text style={styles.empty} key={1}>
           It looks like your inventory is empty.
         </Text>
-        <Text style={styles.empty} key={1}>
+        <Text style={styles.empty} key={2}>
           Scan a receipt to upload your items
         </Text>
       </View>
@@ -44,6 +64,7 @@ const InventoryScreen = (navigation) => {
         location={location}
         category={category}
         isPersonalFridge={true}
+        foodArray={foodArray}
       />
     );
   }
@@ -57,6 +78,12 @@ const InventoryScreen = (navigation) => {
             <SortDropDown sort={sort_by} setSelected={setSelected} />
           </View>
           {inventory}
+          <Button
+            onPress={() => handleRemove()}
+            title="Remove"
+            color="#2FC6B7"
+            width={150}
+          />
         </View>
       </View>
     </View>

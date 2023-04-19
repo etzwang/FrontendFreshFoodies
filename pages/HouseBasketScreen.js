@@ -3,7 +3,6 @@ import { View, Text, StyleSheet } from "react-native";
 import Button from "./components/Button.js";
 import Fridge from "../assets/fridge.svg";
 import {
-  NavigationHelpersContext,
   useFocusEffect,
   useNavigation,
 } from "@react-navigation/native";
@@ -24,7 +23,6 @@ const HouseBasketScreen = (navigation) => {
   const category = ["produce", "meat", "dairy"];
   const [foodArray, setfoodArray] = React.useState([]); // array of foods being selected claim
 
-
   var inventory = [];
   useFocusEffect(
     useCallback(() => {
@@ -39,18 +37,16 @@ const HouseBasketScreen = (navigation) => {
   );
 
   const handleClaim = async () => {
-    console.log(foodArray);
     const fridgeIds = await getUserFridgeIds();
     let foodNameArray = [];
     for (let i = 0; i < foodArray.length; i++) {
-      foodNameArray.push(foodArray[i].slug)
+      foodNameArray.push(foodArray[i].slug);
     }
     await addOrRemoveFoodFromFridge(fridgeIds[1], foodNameArray, "remove");
-    await addOrRemoveFoodFromFridge(fridgeIds[0], foodArray, "add")
-    nav.navigate('Inventory')
+    await addOrRemoveFoodFromFridge(fridgeIds[0], foodArray, "add");
+    setfoodArray([]);
+    nav.navigate("Inventory");
   };
-
-  console.log(houseData);
   if (!houseData) {
     // shared fridge has not been created
     inventory = (
@@ -61,8 +57,8 @@ const HouseBasketScreen = (navigation) => {
           color="#2FC6B7"
           width={300}
         />
-        <Button 
-          onPress={() => nav.push('JoinFridge')}
+        <Button
+          onPress={() => nav.push("JoinFridge")}
           title="Join Shared Fridge"
           color="#ADEBE7"
           width={300}
@@ -71,52 +67,58 @@ const HouseBasketScreen = (navigation) => {
     );
   } else if (houseData.length == 0) {
     inventory = (
-      <View style={styles.form}>
-        <Fridge width={115} height={215} />
-        <Text style={{ padding: "10%" }}>
-          It looks like your shared fridge is empty.
-        </Text>
-        <Text style={{ padding: "10%", fontWeight: "bold" }}>
-          Let's offer up some groceries!
-        </Text>
-      </View>
-    );
-  } else {
-    inventory = (
-      <ItemList
-        sort={selected}
-        data={houseData}
-        location={location}
-        category={category}
-        isPersonalFridge={false}
-        foodArray={foodArray}
-      />
-    );
-  }
-
-  return (
-    <View style={styles.page}>
-      <Text style={styles.title}>Shared Fridge</Text>
-      <View style={styles.form}>
-        <View style={styles.container}>
-          <View style={styles.sort}>
-            <SortDropDown sort={sort_by} setSelected={setSelected} />
-          </View>
-          {inventory}
+      <View style={styles.container}>
+        <View style={styles.form}>
+          <Fridge width={115} height={215} />
+          <Text style={{ padding: "10%" }}>
+            It looks like your shared fridge is empty.
+          </Text>
+          <Text style={{ padding: "10%", fontWeight: "bold" }}>
+            Let's offer up some groceries!
+          </Text>
           <Button
             onPress={() => nav.push("OfferUp")}
             title="Offer Up"
             color="#2FC6B7"
             width={150}
           />
-          <Button
-              onPress={() => handleClaim()}
-              title="Claim!"
-              color="#2FC6B7"
-              width={150}
-            />
         </View>
       </View>
+    );
+  } else {
+    inventory = (
+      <View style={styles.container}>
+        <View style={styles.sort}>
+          <SortDropDown sort={sort_by} setSelected={setSelected} />
+        </View>
+        <ItemList
+          sort={selected}
+          data={houseData}
+          location={location}
+          category={category}
+          isPersonalFridge={false}
+          foodArray={foodArray}
+        />
+        <Button
+          onPress={() => nav.push("OfferUp")}
+          title="Offer Up"
+          color="#2FC6B7"
+          width={150}
+        />
+        <Button
+          onPress={() => handleClaim()}
+          title="Claim!"
+          color="#2FC6B7"
+          width={150}
+        />
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.page}>
+      <Text style={styles.title}>Shared Fridge</Text>
+      <View style={styles.form}>{inventory}</View>
     </View>
   );
 };

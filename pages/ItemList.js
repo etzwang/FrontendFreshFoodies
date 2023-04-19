@@ -5,6 +5,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
@@ -15,7 +16,6 @@ function ItemList(props) {
   let inventory = {};
   let sortCategoryList = [];
   let sort = props.sort ? props.sort : "category"; // if props sort is undefined - default is category
-  console.log("sort is: " + sort);
 
   if (sort == "category" || sort == "location") {
     // create the lists of each
@@ -77,6 +77,67 @@ function ItemList(props) {
   }
 
   // now produce it onto the inventory
+  const [selectedItems, setSelectedItems] = React.useState([]);
+  const getSelected = contact => selectedItems.includes(contact.id);
+
+  function handlePress(item) {
+    if (selectedItems.includes(item.slug)) {
+      const newListItems = selectedItems.filter(listItem => listItem !== item.slug);
+      return setSelectedItems([...newListItems]);
+    }
+    setSelectedItems([...selectedItems, item.slug]);
+
+    if (!props.foodArray.includes(item)) {
+      //checking weather array contain the id
+      props.foodArray.push(item); //adding to array because value doesnt exists
+    } else {
+      props.foodArray.splice(props.foodArray.indexOf(item), 1); //deleting
+    }
+  }
+
+  const ListItem = ({ item, selected, onPress }) => {
+    return(
+    <TouchableOpacity
+      onPress={() => onPress(item)}
+      key={item.name + "_item"}
+      style={selectedItems.includes(item.name) ? styles.itemClicked : styles.item}
+    >
+      <Text style={{ fontSize: 20 }} key={item.name + "_item_text"}>
+        {item.name}
+      </Text>
+      <View style={styles.item_info} key={item.name + "_item_info"}>
+        <View style={styles.info_container} key={item.name + "_ctnr_quantity"}>
+          <Text
+            style={styles.item_info_detail}
+            key={item.name + "_ctnr_quantity_count"}
+          >
+            {item.quantity}
+          </Text>
+          <Text
+            style={styles.item_info_title}
+            key={item.name + "_ctnr_quantity_text"}
+          >
+            quantity
+          </Text>
+        </View>
+        <View style={styles.info_container} key={item.name + "_ctnr_exp_date"}>
+          <Text
+            style={styles.item_info_detail}
+            key={item.name + "_ctnr_exp_date_date"}
+          >
+            {item.expiration_date}
+          </Text>
+          <Text
+            style={styles.item_info_title}
+            key={item.name + "_ctnr_exp_date_text"}
+          >
+            expiration date
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  )};
+
   var inventoryContainer = [];
   for (let i = 0; i < sortCategoryList.length; i++) {
     let currSort = sortCategoryList[i];
@@ -87,89 +148,22 @@ function ItemList(props) {
         </Text>
       );
       var items = [];
-      for (let j = 0; j < inventory[currSort].length; j++) {
-        let currItem = inventory[currSort][j].name;
-        const [clicked, setClicked] = React.useState(false);
-        function handlePress(currItem) {
-          if (props.isPersonalFridge) {
-            navigation.push("DeleteSingleItemScreen", { item: currItem, isPersonalFridge: props.isPersonalFridge })
-            return
-          }
-          if (!props.foodArray.includes(currItem)) {
-            //checking weather array contain the id
-            props.foodArray.push(currItem); //adding to array because value doesnt exists
-          } else {
-            props.foodArray.splice(props.foodArray.indexOf(currItem), 1); //deleting
-          }
-          // props.foodArray.push(currItem);
-          console.log(props.foodArray);
-          setClicked((current) => !current);
-        }
-        items.push(
-          <TouchableOpacity
-            onPress={() => handlePress(inventory[currSort][j])}
-            key={currItem + "_item"}
-            style={{
-              margin: "1%",
-              backgroundColor: "white",
-              width: "48%",
-              height: 100,
-              justifyContent: "center",
-              alignItems: "center",
-              borderWidth: clicked ? 3 : 1,
-              borderRadius: 10,
-              borderColor: clicked ? "#2FC6B7" : "grey",
-              shadowColor: "grey",
-              shadowOpacity: 0.8,
-              shadowRadius: 4,
-              shadowOffset: {
-                height: 1,
-                width: 1,
-              },
-            }}
-          >
-            <Text style={{ fontSize: 20 }} key={currItem + "_item_text"}>
-              {currItem}
-            </Text>
-            <View style={styles.item_info} key={currItem + "_item_info"}>
-              <View
-                style={styles.info_container}
-                key={currItem + "_ctnr_quantity"}
-              >
-                <Text
-                  style={styles.item_info_detail}
-                  key={currItem + "_ctnr_quantity_count"}
-                >
-                  {inventory[currSort][j].quantity}
-                </Text>
-                <Text
-                  style={styles.item_info_title}
-                  key={currItem + "_ctnr_quantity_text"}
-                >
-                  quantity
-                </Text>
-              </View>
-              <View
-                style={styles.info_container}
-                key={currItem + "_ctnr_exp_date"}
-              >
-                <Text
-                  style={styles.item_info_detail}
-                  key={currItem + "_ctnr_exp_date_date"}
-                >
-                  {inventory[currSort][j].expiration_date}
-                </Text>
-                <Text
-                  style={styles.item_info_title}
-                  key={currItem + "_ctnr_exp_date_text"}
-                >
-                  expiration date
-                </Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        );
-      }
+      inventoryContainer.push(
+        <FlatList
+          data={inventory[currSort]}
+          renderItem={({ item }) => {
+            return (
+            <ListItem 
+              onPress={() => handlePress(item)} 
+              item={item}
+              selected={getSelected(item)}
+            />)
+          }}
+          keyExtractor={(item) => item.slug}
+          scrollEnabled={false}
+          numColumns={2}
+        />
+      );
       inventoryContainer.push(
         <View
           style={styles.items_container}
@@ -212,6 +206,26 @@ const styles = StyleSheet.create({
       height: 1,
       width: 1,
     },
+    overflow: "hidden",
+  },
+  itemClicked: {
+    margin: "1%",
+    backgroundColor: "white",
+    width: "48%",
+    height: 100,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 3,
+    borderRadius: 10,
+    borderColor: "#2FC6B7",
+    shadowColor: "grey",
+    shadowOpacity: 0.8,
+    shadowRadius: 4,
+    shadowOffset: {
+      height: 1,
+      width: 1,
+    },
+    overflow: "hidden",
   },
   category_title: {
     fontSize: 25,
@@ -243,7 +257,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 0,
     width: "100%",
-  },
+  }
 });
 
 export default ItemList;
