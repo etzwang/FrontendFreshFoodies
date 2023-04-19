@@ -7,7 +7,11 @@ import {
   useFocusEffect,
   useNavigation,
 } from "@react-navigation/native";
-import { getUserSharedFridgeObject } from "./utils/HttpUtils.js";
+import {
+  getUserSharedFridgeObject,
+  getUserFridgeIds,
+  addOrRemoveFoodFromFridge,
+} from "./utils/HttpUtils.js";
 import ItemList from "./ItemList.js";
 import SortDropDown from "./SortDropDown";
 
@@ -36,8 +40,13 @@ const HouseBasketScreen = (navigation) => {
 
   const handleClaim = async () => {
     console.log(foodArray);
-    // ###### DAVID: NEED TO HANDLE REMOVING ITEMS IN HOUSEHOLD BASKET AND CLAIMING
-    // THEM AS YOUR OWN...BACK INTO INVENTORY?
+    const fridgeIds = await getUserFridgeIds();
+    let foodNameArray = [];
+    for (let i = 0; i < foodArray.length; i++) {
+      foodNameArray.push(foodArray[i].slug)
+    }
+    await addOrRemoveFoodFromFridge(fridgeIds[1], foodNameArray, "remove");
+    await addOrRemoveFoodFromFridge(fridgeIds[0], foodArray, "add")
     nav.navigate('Inventory')
   };
 

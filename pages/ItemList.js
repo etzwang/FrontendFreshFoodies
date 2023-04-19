@@ -75,11 +75,6 @@ function ItemList(props) {
       inventory["quantity"].push(quantitySort[i]);
     }
   }
-  
-  function handlePress(currItem) {
-    let isPersonalFridge = props.isPersonalFridge ? true : false
-    navigation.push("DeleteSingleItemScreen", { item: currItem, isPersonalFridge })
-  }
 
   // now produce it onto the inventory
   var inventoryContainer = [];
@@ -96,6 +91,10 @@ function ItemList(props) {
         let currItem = inventory[currSort][j].name;
         const [clicked, setClicked] = React.useState(false);
         function handlePress(currItem) {
+          if (props.isPersonalFridge) {
+            navigation.push("DeleteSingleItemScreen", { item: currItem, isPersonalFridge: props.isPersonalFridge })
+            return
+          }
           if (!props.foodArray.includes(currItem)) {
             //checking weather array contain the id
             props.foodArray.push(currItem); //adding to array because value doesnt exists

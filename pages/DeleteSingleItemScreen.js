@@ -8,8 +8,8 @@ import {
 
 
 const DeleteSingleItemScreen = ({ route }) => {
-  const navigation = useNavigation();
   const [name, setName] = React.useState(null);
+  const navigation = useNavigation();
 
   let item = route.params.item
   console.log("item: " + JSON.stringify(item))
