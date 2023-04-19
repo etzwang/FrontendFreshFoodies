@@ -24,7 +24,6 @@ function ItemList(props) {
       inventory[sortName] = [];
     }
 
-    var data = AsyncStorage.getItem("data");
     // add the items into the lists
     for (let i = 0; i < props.data.length; i++) {
       let item = props.data[i];
@@ -75,10 +74,6 @@ function ItemList(props) {
       inventory["quantity"].push(quantitySort[i]);
     }
   }
-  
-  function handlePress() {
-    console.log("I am doing nothing")
-  }
 
   // now produce it onto the inventory
   var inventoryContainer = [];
@@ -93,11 +88,40 @@ function ItemList(props) {
       var items = [];
       for (let j = 0; j < inventory[currSort].length; j++) {
         let currItem = inventory[currSort][j].name;
+        const [clicked, setClicked] = React.useState(false);
+        function handlePress(currItem) {
+          if (!props.foodArray.includes(currItem)) {
+            //checking weather array contain the id
+            props.foodArray.push(currItem); //adding to array because value doesnt exists
+          } else {
+            props.foodArray.splice(props.foodArray.indexOf(currItem), 1); //deleting
+          }
+          // props.foodArray.push(currItem);
+          console.log(props.foodArray);
+          setClicked((current) => !current);
+        }
         items.push(
           <TouchableOpacity
-            onPress={handlePress}
-            style={styles.item}
+            onPress={() => handlePress(inventory[currSort][j])}
             key={currItem + "_item"}
+            style={{
+              margin: "1%",
+              backgroundColor: "white",
+              width: "48%",
+              height: 100,
+              justifyContent: "center",
+              alignItems: "center",
+              borderWidth: clicked ? 3 : 1,
+              borderRadius: 10,
+              borderColor: clicked ? "#2FC6B7" : "grey",
+              shadowColor: "grey",
+              shadowOpacity: 0.8,
+              shadowRadius: 4,
+              shadowOffset: {
+                height: 1,
+                width: 1,
+              },
+            }}
           >
             <Text style={{ fontSize: 20 }} key={currItem + "_item_text"}>
               {currItem}
