@@ -13,6 +13,7 @@ import { Text } from "react-native";
 import OfferUp from "./pages/OfferUp";
 import CreateFridge from "./pages/CreateFridge.js";
 import DeleteSingleItemScreen from "./pages/DeleteSingleItemScreen.js";
+import JoinFridge from "./pages/JoinFridge.js";
 
 const Stack = createNativeStackNavigator();
 
@@ -77,6 +78,11 @@ const App = () => {
             <Stack.Screen
               name="CreateFridge"
               component={CreateFridge}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="JoinFridge"
+              component={JoinFridge}
               options={{ headerShown: false }}
             />
             <Stack.Screen

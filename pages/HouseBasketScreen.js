@@ -18,6 +18,8 @@ const HouseBasketScreen = (navigation) => {
   const sort_by = ["category", "expiration_date", "quantity", "location"];
   const location = ["fridge", "freezer", "counter", "pantry"];
   const category = ["produce", "meat", "dairy"];
+  const [foodArray, setfoodArray] = React.useState([]); // array of foods being selected claim
+
 
   var inventory = [];
   useFocusEffect(
@@ -32,6 +34,13 @@ const HouseBasketScreen = (navigation) => {
     }, [])
   );
 
+  const handleClaim = async () => {
+    console.log(foodArray);
+    // ###### DAVID: NEED TO HANDLE REMOVING ITEMS IN HOUSEHOLD BASKET AND CLAIMING
+    // THEM AS YOUR OWN...BACK INTO INVENTORY?
+    nav.navigate('Inventory')
+  };
+
   console.log(houseData);
   if (!houseData) {
     // shared fridge has not been created
@@ -41,6 +50,12 @@ const HouseBasketScreen = (navigation) => {
           onPress={() => nav.push("CreateFridge")}
           title="Create Shared Fridge"
           color="#2FC6B7"
+          width={300}
+        />
+        <Button 
+          onPress={() => nav.push('JoinFridge')}
+          title="Join Shared Fridge"
+          color="#ADEBE7"
           width={300}
         />
       </View>
@@ -65,6 +80,7 @@ const HouseBasketScreen = (navigation) => {
         location={location}
         category={category}
         isPersonalFridge={false}
+        foodArray={foodArray}
       />
     );
   }
@@ -84,6 +100,12 @@ const HouseBasketScreen = (navigation) => {
             color="#2FC6B7"
             width={150}
           />
+          <Button
+              onPress={() => handleClaim()}
+              title="Claim!"
+              color="#2FC6B7"
+              width={150}
+            />
         </View>
       </View>
     </View>
