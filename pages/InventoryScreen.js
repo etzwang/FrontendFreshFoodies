@@ -19,6 +19,7 @@ const InventoryScreen = (navigation) => {
   const [selected, setSelected] = React.useState("");
   var inventory = [];
   const [foodArray, setfoodArray] = React.useState([]); // array of foods being selected to delete
+  const [rerender, setRerender] = React.useState([false]);
 
   useFocusEffect(
     useCallback(() => {
@@ -28,21 +29,37 @@ const InventoryScreen = (navigation) => {
         // {"category":"produce","location":"fridge","name":"apple","quantity":1,"slug":"apple"}
         console.log("pushing foods: " + JSON.stringify(foods));
         setData(foods);
+        setRerender(false);
       });
-    }, [navigation?.route?.params?.newData, handleRemove])
+    }, [navigation?.route?.params?.newData, rerender])
   );
 
   const handleRemove = async () => {
+    console.log("handling remove: ");
     console.log(foodArray);
     const fridgeIds = await getUserFridgeIds();
     let foodNameArray = [];
     for (let i = 0; i < foodArray.length; i++) {
-      console.log('handle remove: ' + foodArray[i].slug)
+      console.log("handle remove: " + foodArray[i].slug);
       foodNameArray.push(foodArray[i].slug);
     }
     await addOrRemoveFoodFromFridge(fridgeIds[0], foodNameArray, "remove");
     setfoodArray([]);
-    nav.navigate("Inventory");
+    setRerender(true);
+  };
+
+  const handleOfferUp = async () => {
+    console.log(foodArray);
+    const fridgeIds = await getUserFridgeIds();
+    console.log("FRIDGE IDS: " + fridgeIds);
+    setfoodArray([]);
+    let foodNameArray = [];
+    for (let i = 0; i < foodArray.length; i++) {
+      foodNameArray.push(foodArray[i].slug)
+    }
+    await addOrRemoveFoodFromFridge(fridgeIds[0], foodNameArray, "remove");
+    await addOrRemoveFoodFromFridge(fridgeIds[1], foodArray, "add")
+    setRerender(true);
   };
 
   if (data.length == 0) {
@@ -78,12 +95,26 @@ const InventoryScreen = (navigation) => {
             <SortDropDown sort={sort_by} setSelected={setSelected} />
           </View>
           {inventory}
-          <Button
-            onPress={() => handleRemove()}
-            title="Remove"
-            color="#2FC6B7"
-            width={150}
-          />
+          <View style={styles.btns}>
+            <Button
+              onPress={() => handleRemove()}
+              title="Remove"
+              color="#2FC6B7"
+              width={100}
+            />
+            <Button
+              onPress={() => nav.navigate("Manual")}
+              title="Add"
+              color="#2FC6B7"
+              width={100}
+            />
+            <Button
+              onPress={() => handleOfferUp()}
+              title="Offer Up"
+              color="#2FC6B7"
+              width={100}
+            />
+          </View>
         </View>
       </View>
     </View>
@@ -132,6 +163,13 @@ const styles = StyleSheet.create({
   empty: {
     fontSize: 18,
   },
+  btns: {
+    flexDirection: "row",
+    flex: 1,
+    justifyContent: 'space-between',
+    position: "sticky",
+    alignItems: "flex-end",
+  }
 });
 
 export default InventoryScreen;

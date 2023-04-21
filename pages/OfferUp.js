@@ -44,9 +44,7 @@ const OfferUp = (navigation) => {
     }
     await addOrRemoveFoodFromFridge(fridgeIds[0], foodNameArray, "remove");
     await addOrRemoveFoodFromFridge(fridgeIds[1], foodArray, "add")
-    nav.navigate('Inventory', {
-      newData: 'newItem'
-    })
+    nav.goBack()
   };
 
   return (

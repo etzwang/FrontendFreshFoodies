@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {View, StyleSheet, Text, TextInput, TouchableOpacity} from 'react-native';
-// import DatePicker from 'react-native-datepicker';
+import DatePicker from 'react-native-datepicker';
 import { useNavigation } from "@react-navigation/native";
 import { makeHTTPRequest, getUserFridgeIds } from './utils/HttpUtils.js';
 
@@ -52,6 +52,10 @@ function Manual(props) {
       })
     }
   };
+  const handleBackBtn = () => {
+    navigation.goBack()
+  }
+
   const title = 'submit';
 
   const addNewFoodToPersonalFridge = async () => {
@@ -111,7 +115,7 @@ function Manual(props) {
         keyboardType="numeric"
       />
       <Text style={styles.form}>expiration date:</Text>
-      {/* <DatePicker 
+      <DatePicker 
         date={date}
         mode="date" //The enum of date, datetime and time
         placeholder="-"
@@ -122,7 +126,7 @@ function Manual(props) {
         onDateChange={(date) => {
           setDate(date);
         }}
-      /> */}
+      />
       <Text style={styles.form}>category</Text>
       <View style={styles.dropdownCtner1}>
         <DropDownPicker
@@ -163,6 +167,9 @@ function Manual(props) {
       </View>
       <TouchableOpacity style={styles.btn} onPress={onPress}>
         <Text style={styles.text}>{title}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.btn} onPress={handleBackBtn}>
+        <Text style={styles.text}>back</Text>
       </TouchableOpacity>
     </View>
   );

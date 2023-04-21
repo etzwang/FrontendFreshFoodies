@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // returns null if the request failed. Will print and alert any errors.
 export const makeHTTPRequest = async (requestOptions, url) => {
-    console.log("making request: " + JSON.stringify(requestOptions))
+    // console.log("making request: " + JSON.stringify(requestOptions))
     var response;
     try {
         response = await fetch(url, requestOptions)

@@ -83,9 +83,10 @@ function ItemList(props) {
   function handlePress(item) {
     if (selectedItems.includes(item.slug)) {
       const newListItems = selectedItems.filter(listItem => listItem !== item.slug);
-      return setSelectedItems([...newListItems]);
+      setSelectedItems([...newListItems]);
+    } else {
+      setSelectedItems([...selectedItems, item.slug]);
     }
-    setSelectedItems([...selectedItems, item.slug]);
 
     if (!props.foodArray.includes(item)) {
       //checking weather array contain the id

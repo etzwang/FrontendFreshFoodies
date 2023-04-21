@@ -37,6 +37,8 @@ const HouseBasketScreen = (navigation) => {
   );
 
   const handleClaim = async () => {
+    console.log('handle claim!!!')
+    console.log(foodArray);
     const fridgeIds = await getUserFridgeIds();
     let foodNameArray = [];
     for (let i = 0; i < foodArray.length; i++) {
