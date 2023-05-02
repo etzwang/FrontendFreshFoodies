@@ -15,7 +15,6 @@ function ItemList(props) {
   // create inventory
   let inventory = {};
   let sortCategoryList = [];
-  console.log(sort);
   let sort = props.sort ? props.sort : "category"; // if props sort is undefined - default is category
 
   if (sort == "category" || sort == "location") {
