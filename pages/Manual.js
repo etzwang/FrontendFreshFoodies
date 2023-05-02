@@ -93,8 +93,8 @@ function Manual(props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.formTitle}>form</Text>
-      <Text style={styles.form}>item name:</Text>
+      <Text style={styles.formTitle}>Add Item</Text>
+      <Text style={styles.form}>Food name:</Text>
       <TextInput 
         editable
         maxLength={40}
