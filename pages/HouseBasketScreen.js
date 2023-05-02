@@ -17,11 +17,10 @@ import SortDropDown from "./SortDropDown";
 const HouseBasketScreen = (navigation) => {
   const [houseData, setHouseData] = React.useState([]);
   const nav = useNavigation();
-  const [selected, setSelected] = React.useState("");
-  const sort_by = ["category", "expiration_date", "quantity", "location"];
   const location = ["fridge", "freezer", "counter", "pantry"];
   const category = ["produce", "meat", "dairy"];
   const [foodArray, setfoodArray] = React.useState([]); // array of foods being selected claim
+  const [sortValue, setSortValue] = React.useState(null);
 
   var inventory = [];
   useFocusEffect(
@@ -91,10 +90,12 @@ const HouseBasketScreen = (navigation) => {
     inventory = (
       <View style={styles.container}>
         <View style={styles.sort}>
-          <SortDropDown sort={sort_by} setSelected={setSelected} />
+          <SortDropDown
+              sortValue={sortValue}
+              setSortValue={setSortValue}/>
         </View>
         <ItemList
-          sort={selected}
+          sort={sortValue}
           data={houseData}
           location={location}
           category={category}

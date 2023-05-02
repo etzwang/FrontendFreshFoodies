@@ -13,13 +13,12 @@ import {
 const InventoryScreen = (navigation) => {
   const nav = useNavigation();
   const [data, setData] = React.useState([]);
-  const sort_by = ["category", "expiration_date", "quantity", "location"];
   const location = ["fridge", "freezer", "counter", "pantry"];
   const category = ["produce", "meat", "dairy"];
-  const [selected, setSelected] = React.useState("");
   var inventory = [];
   const [foodArray, setfoodArray] = React.useState([]); // array of foods being selected to delete
   const [rerender, setRerender] = React.useState([false]);
+  const [sortValue, setSortValue] = React.useState(null);
 
   useFocusEffect(
     useCallback(() => {
@@ -55,10 +54,10 @@ const InventoryScreen = (navigation) => {
     setfoodArray([]);
     let foodNameArray = [];
     for (let i = 0; i < foodArray.length; i++) {
-      foodNameArray.push(foodArray[i].slug)
+      foodNameArray.push(foodArray[i].slug);
     }
     await addOrRemoveFoodFromFridge(fridgeIds[0], foodNameArray, "remove");
-    await addOrRemoveFoodFromFridge(fridgeIds[1], foodArray, "add")
+    await addOrRemoveFoodFromFridge(fridgeIds[1], foodArray, "add");
     setRerender(true);
   };
 
@@ -76,7 +75,7 @@ const InventoryScreen = (navigation) => {
   } else {
     inventory = (
       <ItemList
-        sort={selected}
+        sort={sortValue}
         data={data}
         location={location}
         category={category}
@@ -92,7 +91,10 @@ const InventoryScreen = (navigation) => {
       <View style={styles.form}>
         <View style={styles.container}>
           <View style={styles.sort}>
-            <SortDropDown sort={sort_by} setSelected={setSelected} />
+            <SortDropDown
+              sortValue={sortValue}
+              setSortValue={setSortValue}
+            />
           </View>
           {inventory}
           <View style={styles.btns}>
@@ -165,9 +167,9 @@ const styles = StyleSheet.create({
   },
   btns: {
     flexDirection: "row",
-    justifyContent: 'space-between',
-    alignItems: "flex-end"
-  }
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+  },
 });
 
 export default InventoryScreen;

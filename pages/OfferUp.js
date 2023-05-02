@@ -12,13 +12,11 @@ import {
 
 const OfferUp = (navigation) => {
   const [data, setData] = React.useState([]);
-  const sort_by = ["category", "expiration_date", "quantity", "location"];
   const location = ["fridge", "freezer", "counter", "pantry"];
   const category = ["produce", "meat", "dairy"];
   const nav = useNavigation();
-  const [selected, setSelected] = React.useState("");
   const [foodArray, setfoodArray] = React.useState([]); // array of foods being selected to offer up
-
+  const [sortValue, setSortValue] = React.useState(null);
 
   useEffect(() => {
     getUserPersonalFridgeObject().then((obj) => {
@@ -53,10 +51,12 @@ const OfferUp = (navigation) => {
       <View style={styles.form}>
         <View style={styles.container}>
           <View style={styles.sort}>
-            <SortDropDown sort={sort_by} setSelected={setSelected} />
+            <SortDropDown
+              sortValue={sortValue}
+              setSortValue={setSortValue}/>
           </View>
           <OfferUpItemList
-            sort={selected}
+            sort={sortValue}
             data={data}
             location={location}
             category={category}
