@@ -165,10 +165,8 @@ const styles = StyleSheet.create({
   },
   btns: {
     flexDirection: "row",
-    flex: 1,
     justifyContent: 'space-between',
-    position: "sticky",
-    alignItems: "flex-end",
+    alignItems: "flex-end"
   }
 });
 
