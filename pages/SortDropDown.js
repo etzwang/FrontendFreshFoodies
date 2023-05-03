@@ -35,16 +35,16 @@ const SortDropDown = (props) => {
             borderColor: '#2FC6B7',
             borderRadius: '4',
             width: '50%',
-            borderWidth: '2',
+            borderWidth: '3',
           }}
           dropDownContainerStyle={{
             zIndex:3000,
             borderRadius: '4',
             width: '50%',
             borderColor: '#2FC6B7',
-            borderBottomWidth: '2',
-            borderRightWidth: 2,
-            borderLeftWidth: 2,
+            borderBottomWidth: 3,
+            borderRightWidth: 3,
+            borderLeftWidth: 3,
           }}
         />
     </View>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   buttonDropdown: {
     backgroundColor: '#ADEBE7',
     paddingHorizontal: 0,
-    borderWidth: 1,
+    borderWidth: 5,
     borderRadius: 8,
     borderColor: '#ADEBE7'
   },

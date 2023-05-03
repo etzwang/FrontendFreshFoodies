@@ -102,18 +102,20 @@ const HouseBasketScreen = (navigation) => {
           isPersonalFridge={false}
           foodArray={foodArray}
         />
-        <Button
-          onPress={() => nav.push("OfferUp")}
-          title="Offer Up"
-          color="#2FC6B7"
-          width={150}
-        />
-        <Button
-          onPress={() => handleClaim()}
-          title="Claim!"
-          color="#2FC6B7"
-          width={150}
-        />
+        <View style={styles.btns}>
+          <Button
+            onPress={() => nav.push("OfferUp")}
+            title="Offer Up"
+            color="#2FC6B7"
+            width={150}
+          />
+          <Button
+            onPress={() => handleClaim()}
+            title="Claim!"
+            color="#2FC6B7"
+            width={150}
+          />
+        </View>
       </View>
     );
   }
@@ -164,6 +166,11 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 35,
     borderTopStartRadius: 35,
     backgroundColor: "#FFFFFF",
+  },
+  btns: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
   },
 });
 

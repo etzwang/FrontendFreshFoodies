@@ -1,9 +1,14 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import React, { Component, useCallback, useEffect, useMemo } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import ItemList from "./ItemList";
 import SortDropDown from "./SortDropDown";
 import Button from "./components/Button.js";
+import OfferUpIcon from "../assets/offerup.svg";
+import OfferUpDisabledIcon from "../assets/offerupdisabled.svg";
+import TrashIcon from "../assets/trash.svg";
+import TrashDisabledIcon from "../assets/trashdisabled.svg";
+import AddIcon from "../assets/add.svg";
 import {
   getUserPersonalFridgeObject,
   getUserFridgeIds,
@@ -91,31 +96,43 @@ const InventoryScreen = (navigation) => {
       <View style={styles.form}>
         <View style={styles.container}>
           <View style={styles.sort}>
-            <SortDropDown
-              sortValue={sortValue}
-              setSortValue={setSortValue}
-            />
+            <SortDropDown sortValue={sortValue} setSortValue={setSortValue} />
           </View>
           {inventory}
           <View style={styles.btns}>
-            <Button
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => handleOfferUp()}
+            >
+              <OfferUpIcon width={50} height={50} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btn} onPress={() => handleRemove()}>
+              <TrashIcon width={50} height={50} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => nav.navigate("Manual")}
+            >
+              <AddIcon width={50} height={50} />
+            </TouchableOpacity>
+            {/* <Button
               onPress={() => handleRemove()}
               title="Remove"
               color="#2FC6B7"
-              width={100}
+              width={120}
             />
             <Button
               onPress={() => nav.navigate("Manual")}
               title="Add"
               color="#2FC6B7"
-              width={100}
+              width={120}
             />
             <Button
               onPress={() => handleOfferUp()}
               title="Offer Up"
               color="#2FC6B7"
-              width={100}
-            />
+              width={120}
+            /> */}
           </View>
         </View>
       </View>
@@ -165,10 +182,13 @@ const styles = StyleSheet.create({
   empty: {
     fontSize: 18,
   },
+  btn: {
+    padding: 10,
+  },
   btns: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
+    justifyContent: "space-evenly",
+    alignItems: "center",
   },
 });
 
