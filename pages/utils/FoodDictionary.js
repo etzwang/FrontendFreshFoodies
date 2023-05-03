@@ -1,11 +1,11 @@
 const FoodDictionary = {
     "rice": ["Rice", "grain"],
     "bread": ["Bread", "grain"],
-    "cabbage": ["Cabbage", "produce"],
+    "onion": ["Onion", "produce"],
     "ham": ["Ham", "meat"],
     "beef": ["Beef", "meat"],
     "yogurt": ["Yogurt", "dairy"],
-    "pizza": ["Pizza", "meat"],
+    "tomato": ["Tomato", "produce"],
     "milk": ["Milk", "dairy"],
     "chicken": ["Chicken", "meat"]
 }
