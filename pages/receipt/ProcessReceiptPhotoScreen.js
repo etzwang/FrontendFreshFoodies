@@ -27,13 +27,12 @@ const ProcessReceiptPhotoScreen = ({ route }) => {
     // route.params.text
     const navigation = useNavigation();
 
-    // let detected_items = route.params.text.map(v => v.toLowerCase());
-    let detected_items = ["onion", "beef", "milk", "yogurt", "ham", "tomato", "bread", "chicken", "rice"]
+    let detected_items = route.params.text.map(v => v.toLowerCase());
 
     var items = [];
     var count = 0;
-    for (let i = 0; i < detected_items.length; i++) {
-        for (const word of detected_items[i].split(/[ ,]+/)) {
+    for (const line of detected_items) {
+        for (const word of line.split(/[ ,]+/)) {
             if (FoodDictionary[word] === undefined) {
                 continue
             }

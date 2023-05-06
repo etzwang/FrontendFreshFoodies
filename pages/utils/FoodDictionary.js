@@ -7,7 +7,8 @@ const FoodDictionary = {
     "yogurt": ["Yogurt", "dairy"],
     "tomato": ["Tomato", "produce"],
     "milk": ["Milk", "dairy"],
-    "chicken": ["Chicken", "meat"]
+    "chicken": ["Chicken", "meat"],
+    "pizza": ["Pizza", "meat"]
 }
 
 export default FoodDictionary

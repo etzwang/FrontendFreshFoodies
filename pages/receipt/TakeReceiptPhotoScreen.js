@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Switch } from "react-native";
 import Button from "../components/Button.js";
 import { Camera, CameraType } from 'expo-camera';
 import { useNavigation, useIsFocused, useFocusEffect, useCallback } from "@react-navigation/native";
+import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 
 const TakeReceiptPhotoScreen = () => {
   const [camera, setCamera] = useState(null);
@@ -42,14 +43,24 @@ const TakeReceiptPhotoScreen = () => {
 
     try {
       if (camera !== null) {
-        const result = await camera.takePictureAsync(
+        const image = await camera.takePictureAsync(
           {
             base64: true,
-            quality: 0.8
+            quality: 0.1
           }
         );
-        const b64 = result.base64;
-        navigation.push("ConfirmReceiptPhotoScreen", { b64 })
+
+        let image_cropped = await manipulateAsync(
+          image.uri,
+          [
+            { crop: { originX: image.width * 0.2, originY: 0, height: image.height, width: image.width * 0.6 }},
+          ],
+          {
+            base64: true,
+            format: SaveFormat.JPG
+          }
+        )
+        navigation.push("ConfirmReceiptPhotoScreen", { b64: image_cropped.base64 })
       }
     } catch (error) {
       console.log(error);

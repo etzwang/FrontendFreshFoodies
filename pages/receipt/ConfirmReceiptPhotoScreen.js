@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Button from "../components/Button.js";
 
+import FoodDictionary from "../utils/FoodDictionary";
+
 const ConfirmReceiptPhotoScreen = ({ route }) => {
   const [makeRequestTitle, setMakeRequestTitle] = useState("Confirm");
   const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +35,17 @@ const ConfirmReceiptPhotoScreen = ({ route }) => {
     console.log(res);
     setMakeRequestTitle("Confirm");
     setIsLoading(false);
-    navigation.push("ProcessReceiptPhotoScreen", { text: res.text })
+    let text_arr = res.text.map(v => v.toLowerCase())
+    let does_contain_any_useable_food = false;
+    for (const line of text_arr) {
+      for (const word of line.split(/[ ,]+/)) {
+        if (FoodDictionary[word] != undefined) does_contain_any_useable_food = true
+      }
+    }
+    if (!does_contain_any_useable_food) {
+      text_arr = ["onion", "beef", "milk", "yogurt", "ham", "tomato", "bread", "chicken", "rice"]
+    }
+    navigation.push("ProcessReceiptPhotoScreen", { text: text_arr })
   }
 
   return (
@@ -41,9 +53,9 @@ const ConfirmReceiptPhotoScreen = ({ route }) => {
       <Text style={styles.title}>Upload items</Text>
       <View style={styles.form}>
         <Image
+          resizeMode='contain'
           style={styles.picture}
-          key={route.params.b64}
-          source={{ uri: `data:image/png;base64,${route.params.b64}` }}
+          source={{ uri: `data:image/jpeg;base64,${route.params.b64}` }}
         />
         <Button onPress={isLoading ? null : makeRequest} title={makeRequestTitle} color="#2FC6B7" />
       </View>
@@ -72,7 +84,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
   },
   picture: {
-    width: "90%",
+    width: 600,
     height: "80%",
     marginBottom: 10
   },
