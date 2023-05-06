@@ -33,13 +33,13 @@ const SortDropDown = (props) => {
             zIndex: 10,
             position: 'relative',
             borderColor: '#2FC6B7',
-            borderRadius: '4',
+            borderRadius: 4,
             width: '50%',
-            borderWidth: '3',
+            borderWidth: 3,
           }}
           dropDownContainerStyle={{
             zIndex:3000,
-            borderRadius: '4',
+            borderRadius: 4,
             width: '50%',
             borderColor: '#2FC6B7',
             borderBottomWidth: 3,
