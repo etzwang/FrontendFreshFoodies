@@ -285,7 +285,7 @@ const ProcessReceiptPhotoScreen = ({ route }) => {
                 </View>
               </Modal>
 
-              <ScrollView style={styles.form}>
+              <ScrollView showsVerticalScrollIndicator={false} style={styles.form}>
                 {foodData.map((item) => 
                   {
                     return (

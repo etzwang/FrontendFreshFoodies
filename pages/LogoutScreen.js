@@ -26,7 +26,7 @@ const LogoutScreen = () => {
     <View style={styles.page}>
       <Text style={styles.title}>Looking Glass</Text>
       <View style={styles.form}>
-        <ScrollView style={styles.scrollForm}>
+        <ScrollView showsVerticalScrollIndicator={false}  style={styles.scrollForm}>
           <View style={[styles.introPage, {}]}>
             <ImageBackground source={require("../assets/intro_background.png")} resizeMode="cover" style={styles.image}>
             <Title/>

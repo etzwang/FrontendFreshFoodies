@@ -180,7 +180,7 @@ function ItemList(props) {
       );
     }
   }
-  return <ScrollView style={styles.container}>{inventoryContainer}</ScrollView>;
+  return <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>{inventoryContainer}</ScrollView>;
 }
 
 const styles = StyleSheet.create({
