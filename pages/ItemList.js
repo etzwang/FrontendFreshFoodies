@@ -28,7 +28,12 @@ function ItemList(props) {
     // add the items into the lists
     for (let i = 0; i < props.data.length; i++) {
       let item = props.data[i];
-      inventory[item[sort]].push(item);
+      // if (typeof item == 'undefined') {continue;}
+      try {
+        inventory[item[sort]].push(item);
+      } catch(error) {
+        continue;
+      }
     }
   } else if (sort == "expiration_date") {
     sortCategoryList.push(
