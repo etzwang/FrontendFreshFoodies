@@ -321,19 +321,13 @@ const ProcessReceiptPhotoScreen = ({ route }) => {
                               <Text style={{fontSize: 25}}>{item.name}</Text>
 
                               <View style={styles.foodInfo}>
-                                <View style={{width: "12%", height: "100%", marginRight: "5%", justifyContent: "center", alignItems: "center"}}>
-                                  <View style={{backgroundColor: "#E5E5E5", width: "100%", height: "60%", borderRadius: 25, justifyContent: "center", alignItems: "center"}}>
-                                    {/* insert qty value */}
-                                    <Text>{item.qty}</Text>
-                                  </View>
-                                  <Text style={{fontSize: 10}}>QTY</Text>
-                                </View>
+                                
                                 <View style={{width: "24%", height: "100%", marginRight: "5%", justifyContent: "center", alignItems: "center"}}>
                                   <View style={{backgroundColor: "#E5E5E5", width: "100%", height: "60%", borderRadius: 25, justifyContent: "center", alignItems: "center"}}>
                                     {/* insert price value */}
-                                    <Text>${item.price}</Text>
+                                    <Text>{item.qty}</Text>
                                   </View>
-                                  <Text style={{fontSize: 10}}>Price</Text>
+                                  <Text style={{fontSize: 10}}>QTY</Text>
                                 </View>
                                 <View style={{width: "45%", height: "100%", marginRight: "5%", justifyContent: "center", alignItems: "center"}}>
                                   <View style={{backgroundColor: "#ADEBE7", width: "100%", height: "60%", borderRadius: 25, justifyContent: "center", alignItems: "center"}}>
@@ -568,6 +562,8 @@ text: {
       height: "87.5%",
       // alignItems: "center",
       // justifyContent: "center",
+      borderTopEndRadius: 35,
+      borderTopStartRadius: 35,
       backgroundColor: "#FFFFFF",
     }
   });
