@@ -27,7 +27,8 @@ const ProcessReceiptPhotoScreen = ({ route }) => {
     // route.params.text
     const navigation = useNavigation();
 
-    let detected_items = route.params.text.map(v => v.toLowerCase());
+    // let detected_items = route.params.text.map(v => v.toLowerCase());
+    let detected_items = ["onion", "beef", "milk", "yogurt", "ham", "tomato", "bread", "chicken", "rice"]
 
     var items = [];
     var count = 0;

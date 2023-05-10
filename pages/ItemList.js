@@ -10,6 +10,13 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 
+import { AntDesign } from '@expo/vector-icons';
+
+import Wheat from "../assets/wheat.svg";
+import Dairy from "../assets/dairy.svg";
+import Fruit from "../assets/fruit.svg";
+import Meat from "../assets/meat.svg";
+
 function ItemList(props) {
   const navigation = useNavigation();
   // create inventory
@@ -102,13 +109,61 @@ function ItemList(props) {
   }
 
   const ListItem = ({ item, selected, onPress }) => {
+    console.log(item);
     return(
     <TouchableOpacity
       onPress={() => onPress(item)}
       key={item.name + "_item"}
-      style={selectedItems.includes(item.name) ? styles.itemClicked : styles.item}
+      style={selectedItems.includes(item.name) ? [styles.item, {borderWidth: 3, borderColor: "#2FC6B7"}] : styles.item}
     >
-      <Text style={{ fontSize: 20 }} key={item.name + "_item_text"}>
+      <View style={{width: "100%", height: "100%", alignItems: "center", flexDirection: 'row'}}>
+        <View style={{width: "15%", height: "100%", alignItems: "center", justifyContent: "center"}}>
+          <AntDesign name="up" size={24} color="#2FC6B7" />
+          <Text
+            style={[styles.item_info_detail, {backgroundColor: "white", borderWidth: 0}]}
+            key={item.name + "_ctnr_quantity_count"}
+          >
+            {item.quantity}
+          </Text>
+          <AntDesign name="down" size={24} color="#2FC6B7" />
+        </View>
+        
+        {item.category == "grain" 
+          ? 
+            <Wheat/>
+          : 
+          item.category == "dairy"
+
+          ? 
+            <Dairy/>
+          : 
+          item.category == "produce"
+          ?
+          <Fruit/>
+          :
+          <Meat/>
+        }
+        <View style={{marginLeft: "3%" , width: "35%", height: "100%", justifyContent: "center"}}>
+          <Text style={{ fontSize: 17 }} key={item.name + "_item_text"}>
+            {item.name}
+          </Text>
+        </View>
+        <View style={{width: "25%", height: "100%", justifyContent: "center", alignItems: "center"}}>
+          <Text
+            style={[styles.item_info_detail, {width: "95%", backgroundColor: "#ADEBE7"}]}
+            key={item.name + "_ctnr_exp_date_date"}
+          >
+            {item.expiration_date}
+          </Text>
+          <Text
+            style={styles.item_info_title}
+            key={item.name + "_ctnr_exp_date_text"}
+          >
+            Expiration Date
+          </Text>
+        </View>
+      </View>
+      {/* <Text style={{ fontSize: 20 }} key={item.name + "_item_text"}>
         {item.name}
       </Text>
       <View style={styles.item_info} key={item.name + "_item_info"}>
@@ -140,7 +195,7 @@ function ItemList(props) {
             expiration date
           </Text>
         </View>
-      </View>
+      </View> */}
     </TouchableOpacity>
   )};
 
@@ -167,7 +222,7 @@ function ItemList(props) {
           }}
           keyExtractor={(item) => item.slug}
           scrollEnabled={false}
-          numColumns={2}
+          // numColumns={1}
         />
       );
       inventoryContainer.push(
@@ -180,7 +235,7 @@ function ItemList(props) {
       );
     }
   }
-  return <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>{inventoryContainer}</ScrollView>;
+  return <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>{inventoryContainer}<View style={{height: 50}}/></ScrollView>;
 }
 
 const styles = StyleSheet.create({
@@ -198,13 +253,13 @@ const styles = StyleSheet.create({
   item: {
     margin: "1%",
     backgroundColor: "white",
-    width: "48%",
-    height: 100,
+    width: "95%",
+    height: 90,
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: "grey",
+    borderColor: "#D9D9D9",
     shadowColor: "grey",
     shadowOpacity: 0.8,
     shadowRadius: 4,
