@@ -18,8 +18,8 @@ import {
 const InventoryScreen = (navigation) => {
   const nav = useNavigation();
   const [data, setData] = React.useState([]);
-  const location = ["fridge", "freezer", "counter", "pantry"];
-  const category = ["produce", "meat", "dairy"];
+  const location = ["Fridge", "Freezer", "Counter", "Pantry"];
+  const category = ["Produce", "Meat", "Dairy"];
   var inventory = [];
   const [foodArray, setfoodArray] = React.useState([]); // array of foods being selected to delete
   const [rerender, setRerender] = React.useState([false]);
@@ -100,39 +100,21 @@ const InventoryScreen = (navigation) => {
           </View>
           {inventory}
           <View style={styles.btns}>
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => handleOfferUp()}
-            >
-              <OfferUpIcon width={50} height={50} />
-            </TouchableOpacity>
             <TouchableOpacity style={styles.btn} onPress={() => handleRemove()}>
-              <TrashIcon width={50} height={50} />
+              <TrashIcon width={65} height={65} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => handleOfferUp()}
+            >
+              <OfferUpIcon width={65} height={65} />
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.btn}
               onPress={() => nav.navigate("Manual")}
             >
-              <AddIcon width={50} height={50} />
+              <AddIcon width={65} height={65} />
             </TouchableOpacity>
-            {/* <Button
-              onPress={() => handleRemove()}
-              title="Remove"
-              color="#2FC6B7"
-              width={120}
-            />
-            <Button
-              onPress={() => nav.navigate("Manual")}
-              title="Add"
-              color="#2FC6B7"
-              width={120}
-            />
-            <Button
-              onPress={() => handleOfferUp()}
-              title="Offer Up"
-              color="#2FC6B7"
-              width={120}
-            /> */}
           </View>
         </View>
       </View>

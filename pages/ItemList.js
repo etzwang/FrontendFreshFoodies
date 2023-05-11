@@ -6,11 +6,12 @@ import {
   Text,
   TouchableOpacity,
   FlatList,
+  LogBox,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
 
 import Wheat from "../assets/wheat.svg";
 import Dairy from "../assets/dairy.svg";
@@ -18,6 +19,8 @@ import Fruit from "../assets/fruit.svg";
 import Meat from "../assets/meat.svg";
 
 function ItemList(props) {
+  LogBox.ignoreAllLogs();
+
   const navigation = useNavigation();
   // create inventory
   let inventory = {};
@@ -38,18 +41,18 @@ function ItemList(props) {
       // if (typeof item == 'undefined') {continue;}
       try {
         inventory[item[sort]].push(item);
-      } catch(error) {
+      } catch (error) {
         continue;
       }
     }
   } else if (sort == "expiration_date") {
     sortCategoryList.push(
-      "expired",
-      "expiring today",
-      "expiring the next two days",
-      "expiring within two weeks",
-      "expiring later this month",
-      "expiring in month+"
+      "Expired",
+      "Expiring today",
+      "Expiring the next two days",
+      "Expiring within two weeks",
+      "Expiring later this month",
+      "Expiring in month+"
     );
     let date = new Date();
 
@@ -66,12 +69,12 @@ function ItemList(props) {
 
       // finding the right sort
       let sortName = "";
-      if (dateDiff < 0) sortName = "expired";
-      else if (dateDiff == 0) sortName = "expiring today";
-      else if (dateDiff <= 2) sortName = "expiring the next two days";
-      else if (dateDiff <= 14) sortName = "expiring within two weeks";
-      else if (dateDiff <= 30) sortName = "expiring later this month";
-      else sortName = "expiring in month+";
+      if (dateDiff < 0) sortName = "Expired";
+      else if (dateDiff == 0) sortName = "Expiring today";
+      else if (dateDiff <= 2) sortName = "Expiring the next two days";
+      else if (dateDiff <= 14) sortName = "Expiring within two weeks";
+      else if (dateDiff <= 30) sortName = "Expiring later this month";
+      else sortName = "Expiring in month+";
 
       // pushing it into inventory!
       inventory[sortName].push(item);
@@ -81,20 +84,22 @@ function ItemList(props) {
     quantitySort.sort(function (b, a) {
       return b.quantity - a.quantity;
     });
-    sortCategoryList.push("quantity");
-    inventory["quantity"] = [];
+    sortCategoryList.push("Quantity");
+    inventory["Quantity"] = [];
     for (let i = 0; i < quantitySort.length; i++) {
-      inventory["quantity"].push(quantitySort[i]);
+      inventory["Quantity"].push(quantitySort[i]);
     }
   }
 
   // now produce it onto the inventory
   const [selectedItems, setSelectedItems] = React.useState([]);
-  const getSelected = contact => selectedItems.includes(contact.id);
+  const getSelected = (contact) => selectedItems.includes(contact.id);
 
   function handlePress(item) {
     if (selectedItems.includes(item.slug)) {
-      const newListItems = selectedItems.filter(listItem => listItem !== item.slug);
+      const newListItems = selectedItems.filter(
+        (listItem) => listItem !== item.slug
+      );
       setSelectedItems([...newListItems]);
     } else {
       setSelectedItems([...selectedItems, item.slug]);
@@ -110,60 +115,110 @@ function ItemList(props) {
 
   const ListItem = ({ item, selected, onPress }) => {
     console.log(item);
-    return(
-    <TouchableOpacity
-      onPress={() => onPress(item)}
-      key={item.name + "_item"}
-      style={selectedItems.includes(item.name) ? [styles.item, {borderWidth: 3, borderColor: "#2FC6B7"}] : styles.item}
-    >
-      <View style={{width: "100%", height: "100%", alignItems: "center", flexDirection: 'row'}}>
-        <View style={{width: "15%", height: "100%", alignItems: "center", justifyContent: "center"}}>
-          <AntDesign name="up" size={24} color="#2FC6B7" />
-          <Text
-            style={[styles.item_info_detail, {backgroundColor: "white", borderWidth: 0}]}
-            key={item.name + "_ctnr_quantity_count"}
+    return (
+      <TouchableOpacity
+        onPress={() => onPress(item)}
+        key={item.name + "_item"}
+        style={
+          selectedItems.includes(item.name)
+            ? [styles.item, { borderWidth: 3, borderColor: "#2FC6B7" }]
+            : styles.item
+        }
+      >
+        <View
+          style={{
+            width: "100%",
+            height: "100%",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <View
+            style={{
+              width: "15%",
+              height: "100%",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
-            {item.quantity}
-          </Text>
-          <AntDesign name="down" size={24} color="#2FC6B7" />
-        </View>
-        
-        {item.category == "grain" 
+            <AntDesign name="up" size={24} color="#2FC6B7" />
+            <Text
+              style={[
+                styles.item_info_detail,
+                { backgroundColor: "white", borderWidth: 0 },
+              ]}
+              key={item.name + "_ctnr_quantity_count"}
+            >
+              {item.quantity}
+            </Text>
+            <AntDesign name="down" size={24} color="#2FC6B7" />
+          </View>
+
+          {/* {item.category == "Grain" 
           ? 
             <Wheat/>
           : 
-          item.category == "dairy"
+          item.category == "Dairy"
 
           ? 
             <Dairy/>
           : 
-          item.category == "produce"
+          item.category == "Produce"
           ?
           <Fruit/>
           :
           <Meat/>
-        }
-        <View style={{marginLeft: "3%" , width: "35%", height: "100%", justifyContent: "center"}}>
-          <Text style={{ fontSize: 17 }} key={item.name + "_item_text"}>
-            {item.name}
-          </Text>
-        </View>
-        <View style={{width: "25%", height: "100%", justifyContent: "center", alignItems: "center"}}>
-          <Text
-            style={[styles.item_info_detail, {width: "95%", backgroundColor: "#ADEBE7"}]}
-            key={item.name + "_ctnr_exp_date_date"}
+        } */}
+          <View
+            style={{
+              marginLeft: "3%",
+              width: "50%",
+              height: "100%",
+              justifyContent: "center",
+            }}
           >
-            {item.expiration_date}
-          </Text>
-          <Text
-            style={styles.item_info_title}
-            key={item.name + "_ctnr_exp_date_text"}
+            <Text style={{ fontSize: 20 }} key={item.name + "_item_text"}>
+              {item.name}
+            </Text>
+          </View>
+          <View
+            style={{
+              width: "25%",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
-            Expiration Date
-          </Text>
+            <View
+              style={[
+                styles.item_info_detail,
+                {
+                  width: "95%",
+                  backgroundColor: "#ADEBE7",
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+              ]}
+            >
+              <Text
+                style={[
+                  styles.item_info_detail,
+                  { width: "95%", backgroundColor: "#ADEBE7", borderWidth: 0 },
+                ]}
+                key={item.name + "_ctnr_exp_date_date"}
+              >
+                {item.expiration_date}
+              </Text>
+            </View>
+            <Text
+              style={styles.item_info_title}
+              key={item.name + "_ctnr_exp_date_text"}
+            >
+              Expiration Date
+            </Text>
+          </View>
         </View>
-      </View>
-      {/* <Text style={{ fontSize: 20 }} key={item.name + "_item_text"}>
+        {/* <Text style={{ fontSize: 20 }} key={item.name + "_item_text"}>
         {item.name}
       </Text>
       <View style={styles.item_info} key={item.name + "_item_info"}>
@@ -196,8 +251,9 @@ function ItemList(props) {
           </Text>
         </View>
       </View> */}
-    </TouchableOpacity>
-  )};
+      </TouchableOpacity>
+    );
+  };
 
   var inventoryContainer = [];
   for (let i = 0; i < sortCategoryList.length; i++) {
@@ -214,11 +270,12 @@ function ItemList(props) {
           data={inventory[currSort]}
           renderItem={({ item }) => {
             return (
-            <ListItem 
-              onPress={() => handlePress(item)} 
-              item={item}
-              selected={getSelected(item)}
-            />)
+              <ListItem
+                onPress={() => handlePress(item)}
+                item={item}
+                selected={getSelected(item)}
+              />
+            );
           }}
           keyExtractor={(item) => item.slug}
           scrollEnabled={false}
@@ -235,7 +292,12 @@ function ItemList(props) {
       );
     }
   }
-  return <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>{inventoryContainer}<View style={{height: 50}}/></ScrollView>;
+  return (
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+      {inventoryContainer}
+      <View style={{ height: 50 }} />
+    </ScrollView>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -318,38 +380,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 0,
     width: "100%",
-  }
+  },
 });
 
 export default ItemList;
-
-let json = [
-  {
-    category: "produce",
-    expiration_date: "2023-03-10",
-    location: "counter",
-    name: "banana",
-    quantity: 1,
-  },
-  {
-    category: "meat",
-    expiration_date: "2023-02-25",
-    location: "freezer",
-    name: "steak",
-    quantity: 2,
-  },
-  {
-    category: "produce",
-    expiration_date: "2023-03-07",
-    location: "fridge",
-    name: "apple",
-    quantity: 3,
-  },
-  {
-    category: "dairy",
-    expiration_date: "2023-03-28",
-    location: "fridge",
-    name: "egg",
-    quantity: 6,
-  },
-];

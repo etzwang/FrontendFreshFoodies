@@ -12,8 +12,8 @@ import {
 
 const OfferUp = (navigation) => {
   const [data, setData] = React.useState([]);
-  const location = ["fridge", "freezer", "counter", "pantry"];
-  const category = ["produce", "meat", "dairy"];
+  const location = ["Fridge", "Freezer", "Counter", "Pantry"];
+  const category = ["Produce", "Meat", "Dairy"];
   const nav = useNavigation();
   const [foodArray, setfoodArray] = React.useState([]); // array of foods being selected to offer up
   const [sortValue, setSortValue] = React.useState(null);

@@ -12,9 +12,9 @@ function OfferUpItemList(props) {
   // create inventory
   let inventory = {};
   let sortCategoryList = [];
-  let sort = props.sort ? props.sort : "category"; // if props sort is undefined - default is category
+  let sort = props.sort ? props.sort : "Category"; // if props sort is undefined - default is category
 
-  if (sort == "category" || sort == "location") {
+  if (sort == "Category" || sort == "Location") {
     // create the lists of each
     for (let i = 0; i < props[sort].length; i++) {
       let sortName = props[sort][i];
@@ -28,14 +28,14 @@ function OfferUpItemList(props) {
       let item = props.data[i];
       inventory[item[sort]].push(item);
     }
-  } else if (sort == "expiration_date") {
+  } else if (sort == "Expiration_date") {
     sortCategoryList.push(
-      "expired",
-      "expiring today",
-      "expiring the next two days",
-      "expiring within two weeks",
-      "expiring later this month",
-      "expiring in month+"
+      "Expired",
+      "Expiring today",
+      "Expiring the next two days",
+      "Expiring within two weeks",
+      "Expiring later this month",
+      "Expiring in month+"
     );
     let date = new Date();
 
@@ -52,12 +52,12 @@ function OfferUpItemList(props) {
 
       // finding the right sort
       let sortName = "";
-      if (dateDiff < 0) sortName = "expired";
-      else if (dateDiff == 0) sortName = "expiring today";
-      else if (dateDiff <= 2) sortName = "expiring the next two days";
-      else if (dateDiff <= 14) sortName = "expiring within two weeks";
-      else if (dateDiff <= 30) sortName = "expiring later this month";
-      else sortName = "expiring in month+";
+      if (dateDiff < 0) sortName = "Expired";
+      else if (dateDiff == 0) sortName = "Expiring today";
+      else if (dateDiff <= 2) sortName = "Expiring the next two days";
+      else if (dateDiff <= 14) sortName = "Expiring within two weeks";
+      else if (dateDiff <= 30) sortName = "Expiring later this month";
+      else sortName = "Expiring in month+";
 
       // pushing it into inventory!
       inventory[sortName].push(item);
@@ -67,10 +67,10 @@ function OfferUpItemList(props) {
     quantitySort.sort(function (b, a) {
       return b.quantity - a.quantity;
     });
-    sortCategoryList.push("quantity");
-    inventory["quantity"] = [];
+    sortCategoryList.push("Quantity");
+    inventory["Quantity"] = [];
     for (let i = 0; i < quantitySort.length; i++) {
-      inventory["quantity"].push(quantitySort[i]);
+      inventory["Quantity"].push(quantitySort[i]);
     }
   }
 
@@ -240,34 +240,3 @@ const styles = StyleSheet.create({
 });
 
 export default OfferUpItemList;
-
-let json = [
-  {
-    category: "produce",
-    expiration_date: "2023-03-10",
-    location: "counter",
-    name: "banana",
-    quantity: 1,
-  },
-  {
-    category: "meat",
-    expiration_date: "2023-02-25",
-    location: "freezer",
-    name: "steak",
-    quantity: 2,
-  },
-  {
-    category: "produce",
-    expiration_date: "2023-03-07",
-    location: "fridge",
-    name: "apple",
-    quantity: 3,
-  },
-  {
-    category: "dairy",
-    expiration_date: "2023-03-28",
-    location: "fridge",
-    name: "egg",
-    quantity: 6,
-  },
-];

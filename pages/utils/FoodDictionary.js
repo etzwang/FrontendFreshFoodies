@@ -1,14 +1,14 @@
 const FoodDictionary = {
-    "rice": ["Rice", "grain"],
-    "bread": ["Bread", "grain"],
-    "onion": ["Onion", "produce"],
-    "ham": ["Ham", "meat"],
-    "beef": ["Beef", "meat"],
-    "yogurt": ["Yogurt", "dairy"],
-    "tomato": ["Tomato", "produce"],
-    "milk": ["Milk", "dairy"],
-    "chicken": ["Chicken", "meat"],
-    "pizza": ["Pizza", "meat"]
+    "rice": ["Rice", "Grain"],
+    "bread": ["Bread", "Grain"],
+    "onion": ["Onion", "Produce"],
+    "ham": ["Ham", "Meat"],
+    "beef": ["Beef", "Meat"],
+    "yogurt": ["Yogurt", "Dairy"],
+    "tomato": ["Tomato", "Produce"],
+    "milk": ["Milk", "Dairy"],
+    "chicken": ["Chicken", "Meat"],
+    "pizza": ["Pizza", "Meat"]
 }
 
 export default FoodDictionary

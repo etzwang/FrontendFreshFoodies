@@ -2,10 +2,7 @@ import React, { useCallback, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Button from "./components/Button.js";
 import Fridge from "../assets/fridge.svg";
-import {
-  useFocusEffect,
-  useNavigation,
-} from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import {
   getUserSharedFridgeObject,
   getUserFridgeIds,
@@ -17,8 +14,8 @@ import SortDropDown from "./SortDropDown";
 const HouseBasketScreen = (navigation) => {
   const [houseData, setHouseData] = React.useState([]);
   const nav = useNavigation();
-  const location = ["fridge", "freezer", "counter", "pantry"];
-  const category = ["produce", "meat", "dairy"];
+  const location = ["Fridge", "Freezer", "Counter", "Pantry"];
+  const category = ["Produce", "Meat", "Dairy"];
   const [foodArray, setfoodArray] = React.useState([]); // array of foods being selected claim
   const [sortValue, setSortValue] = React.useState(null);
 
@@ -36,7 +33,7 @@ const HouseBasketScreen = (navigation) => {
   );
 
   const handleClaim = async () => {
-    console.log('handle claim!!!')
+    console.log("handle claim!!!");
     console.log(foodArray);
     const fridgeIds = await getUserFridgeIds();
     let foodNameArray = [];
@@ -58,6 +55,7 @@ const HouseBasketScreen = (navigation) => {
           color="#2FC6B7"
           width={300}
         />
+        <View style={{ height: "5%" }} />
         <Button
           onPress={() => nav.push("JoinFridge")}
           title="Join Shared Fridge"
@@ -90,9 +88,7 @@ const HouseBasketScreen = (navigation) => {
     inventory = (
       <View style={styles.container}>
         <View style={styles.sort}>
-          <SortDropDown
-              sortValue={sortValue}
-              setSortValue={setSortValue}/>
+          <SortDropDown sortValue={sortValue} setSortValue={setSortValue} />
         </View>
         <ItemList
           sort={sortValue}
