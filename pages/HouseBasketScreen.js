@@ -75,12 +75,12 @@ const HouseBasketScreen = (navigation) => {
           <Text style={{ padding: "10%", fontWeight: "bold" }}>
             Let's offer up some groceries!
           </Text>
-          <Button
+          {/* <Button
             onPress={() => nav.push("OfferUp")}
             title="Offer Up"
             color="#2FC6B7"
             width={150}
-          />
+          /> */}
         </View>
       </View>
     );
@@ -99,12 +99,12 @@ const HouseBasketScreen = (navigation) => {
           foodArray={foodArray}
         />
         <View style={styles.btns}>
-          <Button
+          {/* <Button
             onPress={() => nav.push("OfferUp")}
             title="Offer Up"
             color="#2FC6B7"
             width={150}
-          />
+          /> */}
           <Button
             onPress={() => handleClaim()}
             title="Claim!"

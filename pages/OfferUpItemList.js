@@ -12,9 +12,9 @@ function OfferUpItemList(props) {
   // create inventory
   let inventory = {};
   let sortCategoryList = [];
-  let sort = props.sort ? props.sort : "Category"; // if props sort is undefined - default is category
+  let sort = props.sort ? props.sort : "category"; // if props sort is undefined - default is category
 
-  if (sort == "Category" || sort == "Location") {
+  if (sort == "category" || sort == "location") {
     // create the lists of each
     for (let i = 0; i < props[sort].length; i++) {
       let sortName = props[sort][i];
@@ -26,9 +26,13 @@ function OfferUpItemList(props) {
     // add the items into the lists
     for (let i = 0; i < props.data.length; i++) {
       let item = props.data[i];
-      inventory[item[sort]].push(item);
+      try {
+        inventory[item[sort]].push(item);
+      } catch (error) {
+        continue;
+      }
     }
-  } else if (sort == "Expiration_date") {
+  } else if (sort == "expiration_date") {
     sortCategoryList.push(
       "Expired",
       "Expiring today",
