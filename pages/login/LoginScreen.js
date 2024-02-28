@@ -1,4 +1,4 @@
-import React, { useState } from 'react';  
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import Button from "../components/Button.js";
 import { useNavigation } from "@react-navigation/native";
@@ -30,7 +30,7 @@ const LoginScreen = () => {
       body: JSON.stringify(body)
     };
 
-    var response = await makeHTTPRequest(requestOptions, "https://looking-glass-api.herokuapp.com/api/login");
+    var response = await makeHTTPRequest(requestOptions, process.env.EXPO_PUBLIC_API_BASE_URL +  "api/login");
 
     if (response === null) {
       alert("login failed");
@@ -66,8 +66,8 @@ const LoginScreen = () => {
       },
       body: JSON.stringify(body)
     };
-    
-    var response = makeHTTPRequest(requestOptions, "https://looking-glass-api.herokuapp.com/api/signup");
+
+    var response = makeHTTPRequest(requestOptions, process.env.EXPO_PUBLIC_API_BASE_URL +   "api/signup");
 
     if (response === null) {
       alert("signup failed");
@@ -94,7 +94,7 @@ const LoginScreen = () => {
       body: JSON.stringify(body)
     };
 
-    var response = await makeHTTPRequest(requestOptions, "https://looking-glass-api.herokuapp.com/api/login");
+    var response = await makeHTTPRequest(requestOptions, process.env.EXPO_PUBLIC_API_BASE_URL +  "api/login");
 
     if (response && response.email) {
       AsyncStorage.setItem('user_email', response.email);

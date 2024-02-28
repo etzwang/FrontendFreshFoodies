@@ -12,13 +12,20 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.quinam.LookingGlass"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "android": {
       "softwareKeyboardLayoutMode": "pan"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a69c51a4-8441-460d-b39f-b72655c32838"
+      }
+    },
+    "owner": "quinam"
   }
 }

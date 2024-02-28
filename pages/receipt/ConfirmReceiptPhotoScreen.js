@@ -23,10 +23,10 @@ const ConfirmReceiptPhotoScreen = ({ route }) => {
       body: route.params.b64,
       redirect: 'follow'
     };
-    
+
     let res;
     try {
-      res = await fetch("https://looking-glass-api.herokuapp.com/api/receipt", requestOptions)
+      res = await fetch(process.env.EXPO_PUBLIC_API_BASE_URL + "api/receipt", requestOptions)
     } catch (error) {
       console.log('error', error)
         alert(error)

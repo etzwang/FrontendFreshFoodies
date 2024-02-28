@@ -33,8 +33,8 @@ export const getUserPersonalFridgeObject = async () => {
           "Content-Type": "application/json"
         }
       };
-    
-    var response = await makeHTTPRequest(requestOptions, "https://looking-glass-api.herokuapp.com/api/fridge/" + personalFridgeId);
+
+    var response = await makeHTTPRequest(requestOptions, process.env.EXPO_PUBLIC_API_BASE_URL + "api/fridge/" + personalFridgeId);
     if (response === null) {
         alert("failed to get your fridge.")
         return;
@@ -54,7 +54,7 @@ export const getUserFridgeIds = async () => {
     })
   };
 
-  var response = await makeHTTPRequest(requestOptions, "https://looking-glass-api.herokuapp.com/api/me");
+  var response = await makeHTTPRequest(requestOptions, process.env.EXPO_PUBLIC_API_BASE_URL + "api/me");
   if (response === null) {
     alert("failed to get your login info.")
     return;
@@ -76,7 +76,7 @@ export const getUserSharedFridgeObject = async () => {
     }
   };
 
-  var response = await makeHTTPRequest(requestOptions, "https://looking-glass-api.herokuapp.com/api/fridge/" + sharedFridgeId);
+  var response = await makeHTTPRequest(requestOptions, process.env.EXPO_PUBLIC_API_BASE_URL + "api/fridge/" + sharedFridgeId);
   if (response === null) {
       alert("failed to get your fridge.")
       return;
@@ -97,7 +97,7 @@ export const addOrRemoveFoodFromFridge = async (fridgeId, foodArray, action) => 
     })
   };
 
-  var response = await makeHTTPRequest(requestOptions, "https://looking-glass-api.herokuapp.com/api/fridge/" + fridgeId + "/foods")
+  var response = await makeHTTPRequest(requestOptions, process.env.EXPO_PUBLIC_API_BASE_URL + "api/fridge/" + fridgeId + "/foods")
   if (response === null) {
     alert("failed to add or remove foods")
     return
@@ -120,7 +120,7 @@ export const createFridge = async (email, slug) => {
     body: JSON.stringify(body)
   };
 
-  var response = makeHTTPRequest(requestOptions, "https://looking-glass-api.herokuapp.com/api/fridge");
+  var response = makeHTTPRequest(requestOptions, process.env.EXPO_PUBLIC_API_BASE_URL + "api/fridge");
 
   if (!response) {
     alert("fridge creation failed")

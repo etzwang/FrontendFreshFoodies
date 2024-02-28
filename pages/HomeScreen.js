@@ -5,6 +5,7 @@ import HouseBasketScreen from './HouseBasketScreen';
 import ScanReceiptScreen from "./ScanReceiptScreen";
 import LogoutScreen from "./LogoutScreen";
 import { AntDesign, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
+import StorageScreen from "./StorageScreen";
 
 
 const Tab = createBottomTabNavigator();
@@ -25,8 +26,8 @@ const HomeScreen = () => {
       }}
     >
       <Tab.Screen
-        name="Inventory"
-        component={InventoryScreen}
+        name="Storage"
+        component={StorageScreen}
         options={{
           tabBarLabel: '',
           tabBarShowLabel: false,

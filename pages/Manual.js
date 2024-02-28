@@ -7,14 +7,14 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import DatePicker from "react-native-datepicker";
+import DateTimePicker from "@react-native-community/datetimepicker"
 import { useNavigation } from "@react-navigation/native";
 import { makeHTTPRequest, getUserFridgeIds } from "./utils/HttpUtils.js";
 
 function Manual(props) {
   const [name, setName] = useState(null);
   const [quantity, setQuantity] = useState(null);
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(new Date());
 
   const [locationOpen, setlocationOpen] = useState(false);
   const [locationValue, setlocationValue] = useState(null);
@@ -103,7 +103,7 @@ function Manual(props) {
 
     var response = await makeHTTPRequest(
       requestOptions,
-      "https://looking-glass-api.herokuapp.com/api/fridge/" +
+      process.env.EXPO_PUBLIC_API_BASE_URL + "api/fridge/" +
         fridgeId +
         "/foods"
     );
@@ -140,12 +140,12 @@ function Manual(props) {
         keyboardType="numeric"
       />
       <Text style={styles.form}>Expiration Date:</Text>
-      <DatePicker
-        date={date}
+      <DateTimePicker
+        value={date}
         mode="date" //The enum of date, datetime and time
         placeholder="Select date"
-        format="YYYY-MM-DD"
-        minDate={date}
+        dateFormat="YYYY-MM-DD"
+        minimumDate={date}
         confirmBtnText="confirm"
         cancelBtnText="cancel"
         onDateChange={(date) => {

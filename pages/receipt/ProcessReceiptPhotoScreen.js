@@ -10,7 +10,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import DatePicker from "react-native-datepicker";
+import DateTimePicker from "@react-native-community/datetimepicker"
 import DropDownPicker from "react-native-dropdown-picker";
 
 import Button from "../components/Button";
@@ -82,7 +82,7 @@ const ProcessReceiptPhotoScreen = ({ route }) => {
 
   const [name, setName] = useState(null);
   const [quantity, setQuantity] = useState(0);
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(new Date());
   const [price, setPrice] = useState(0);
 
   const [locationOpen, setlocationOpen] = useState(false);
@@ -237,12 +237,12 @@ const ProcessReceiptPhotoScreen = ({ route }) => {
                 keyboardType="numeric"
               />
               <Text style={styles.formItemTitle}>Expiration Date:</Text>
-              <DatePicker
-                date={date}
+              <DateTimePicker
+                value={date}
                 mode="date" //The enum of date, datetime and time
                 placeholder="-"
                 format="YYYY-MM-DD"
-                minDate={date}
+                minimumDate={date}
                 confirmBtnText="confirm"
                 cancelBtnText="cancel"
                 style={styles.textInput}
