@@ -1,12 +1,11 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import StorageImage from '../assets/StorageTitle.png'; // Import the image
+import StorageImage from '../assets/StorageTitle.png';
 
 function InventoryScreen() {
     return (
         <View style={{ flex: 1, flexDirection: 'column' }}>
-            {/* Search Bar */}
             <View style={styles.searchContainer}>
                 <Ionicons name="search-outline" size={24} color="black" style={styles.searchIcon} />
                 <TextInput
@@ -16,10 +15,8 @@ function InventoryScreen() {
                 />
             </View>
 
-            {/* First set of inventory */}
             <InventoryContent />
 
-            {/* Add Item Button */}
             <TouchableOpacity style={styles.addItemButton}>
                 <Text style={styles.addItemButtonText}>Add Item</Text>
             </TouchableOpacity>
@@ -30,7 +27,6 @@ function InventoryScreen() {
 function InventoryContent() {
     return (
         <View>
-            {/* Top rectangle with "Storage" */}
             <ImageBackground
                 source={StorageImage}
                 style={{width:"100%", height:60}}
@@ -39,7 +35,6 @@ function InventoryContent() {
                 <Text style={styles.storageText}>Fruit</Text>
             </ImageBackground>
 
-            {/* Header row */}
             <View style={styles.headerRow}>
                 <Text style={styles.headerText}>Food</Text>
                 <Text style={styles.headerText}>Amount</Text>
@@ -47,13 +42,11 @@ function InventoryContent() {
                 <Text style={styles.headerText}>Action</Text>
             </View>
 
-            {/* Sample Inventory Items */}
             {renderInventoryItem('Apple', '5', '2024-03-10')}
             {renderInventoryItem('Banana', '3', '2024-03-15')}
             {renderInventoryItem('Orange', '4', '2024-03-12')}
             {renderInventoryItem('Grapes', '2', '2024-03-18')}
 
-            {/* Top rectangle with "Storage" */}
             <ImageBackground
                 source={StorageImage}
                 style={{width:"100%", height:60}}
@@ -62,7 +55,6 @@ function InventoryContent() {
                 <Text style={styles.storageText}>Pantry</Text>
             </ImageBackground>
 
-            {/* Header row */}
             <View style={styles.headerRow}>
                 <Text style={styles.headerText}>Food</Text>
                 <Text style={styles.headerText}>Amount</Text>
@@ -70,7 +62,6 @@ function InventoryContent() {
                 <Text style={styles.headerText}>Action</Text>
             </View>
 
-            {/* Sample Inventory Items */}
             {renderInventoryItem('Apple', '5', '2024-03-10')}
             {renderInventoryItem('Banana', '3', '2024-03-15')}
             {renderInventoryItem('Orange', '4', '2024-03-12')}
@@ -134,8 +125,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         alignSelf: 'center',
         marginTop: 20,
-        elevation: 5, // Shadow for Android
-        shadowColor: '#000', // Shadow for iOS
+        elevation: 5,
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 2,

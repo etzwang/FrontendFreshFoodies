@@ -27,14 +27,14 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: 16,
-        height: 100, // Adjusted height
+        height: 100,
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
         paddingTop: 30,
     },
     title: {
-        fontSize: 24, // Increased font size
-        fontWeight: 'bold', // Bold font weight
+        fontSize: 24,
+        fontWeight: 'bold',
         textAlign: 'center',
     },
     rightIcons: {
@@ -44,12 +44,10 @@ const styles = StyleSheet.create({
 });
 
 function handleNotificationClick() {
-    // Implement your notification click functionality here
     console.log("Notification clicked!");
 }
 
 function handleMenuClick() {
-    // Implement your menu click functionality here
     console.log("Menu clicked!");
 }
 

@@ -17,7 +17,6 @@ const LoginScreen = () => {
       return;
     }
 
-    // try to login with the given email
     console.log("making login request");
 
     var body = {
@@ -191,17 +190,17 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     color: "#FFFFFF",
-    textShadowColor: 'rgba(0, 0, 0, 0.7)', // Shadow color
-    textShadowOffset: { width: 2, height: 2 }, // Shadow offset
-    textShadowRadius: 5, // Shadow radius
+    textShadowColor: 'rgba(0, 0, 0, 0.7)',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 5,
   },
   signUpLink: {
     marginTop: 10,
     color: "#FFFFFF",
     textDecorationLine: 'underline',
-    textShadowColor: 'rgba(0, 0, 0, 0.7)', // Shadow color
-    textShadowOffset: { width: 2, height: 2 }, // Shadow offset
-    textShadowRadius: 5, // Shadow radius
+    textShadowColor: 'rgba(0, 0, 0, 0.7)',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 5,
   },
   button: {
     width: "80%",
