@@ -14,6 +14,8 @@ import ActiveIndicator from '../assets/storage/active_indicator.svg'
 import ActiveIndicatorShared from '../assets/storage/active_indicator_shared.svg'
 import FridgeButton from '../assets/storage/fridge_button.svg'
 import StorageButton from "./components/StorageButton.js";
+import NotifictionScreen from "./NotificationScreen.js";
+import NotificationScreen from "./NotificationScreen.js";
 
 const StorageScreen = (navigation) => {
   const nav = useNavigation();
@@ -21,9 +23,15 @@ const StorageScreen = (navigation) => {
   const [viewingOwnFridge, setViewingOwnFridge] = React.useState(true)
   const location = ["Fridge", "Freezer", "Pantry", "Cabinet"];
 
+
   return (
     <View style={styles.page}>
-      <Text style={styles.title}>Storage</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Storage</Text>
+        <TouchableOpacity onPress={() => NotificationScreen(true)}>
+          <MaterialCommunityIcons name="bell-badge" size={24} color="white" />
+        </TouchableOpacity>
+      </View>
       <View style={styles.form}>
         <View style={styles.searchContainer}>
             <MaterialCommunityIcons color='#718482' name='magnify' size='20' style={{marginLeft: '4%'}}></MaterialCommunityIcons>
@@ -106,6 +114,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 35,
     paddingBottom: "1%",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    width: "100%",
   },
   form: {
     width: "100%",
