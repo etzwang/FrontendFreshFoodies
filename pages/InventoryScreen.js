@@ -9,6 +9,7 @@ import OfferUpDisabledIcon from "../assets/offerupdisabled.svg";
 import TrashIcon from "../assets/trash.svg";
 import TrashDisabledIcon from "../assets/trashdisabled.svg";
 import AddIcon from "../assets/add.svg";
+import DeletionMenu from "./components/DeletionMenu.js";
 import {
   getUserPersonalFridgeObject,
   getUserFridgeIds,

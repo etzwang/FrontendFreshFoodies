@@ -6,6 +6,7 @@ import ScanReceiptScreen from "./ScanReceiptScreen";
 import LogoutScreen from "./LogoutScreen";
 import { AntDesign, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 import StorageScreen from "./StorageScreen";
+import PushNotifications from "./components/PushNotification";
 
 
 const Tab = createBottomTabNavigator();
